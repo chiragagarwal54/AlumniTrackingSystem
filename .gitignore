@@ -1,0 +1,17 @@
+*.log
+
+*.pot
+
+*.pyc
+
+__pycache__
+
+db.sqlite3
+
+media
+
+media_cdn
+
+accounts/migrations/00*
+
+base/migrations/00*
