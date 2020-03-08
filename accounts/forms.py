@@ -1,15 +1,40 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-from accounts.models import Account
+from django.db import transaction
+from college.models import College, Department
+from accounts.models import Alumni, Faculty, User
+
+class AlumniSignUpForm(UserCreationForm):
+    college = forms.ModelChoiceField(
+        queryset=College.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_alumni = True
+        user.save()
+        alumni = Alumni.objects.create(user=user)
+        alumni.college = College.objects.get(college)
+        return user
 
 
-class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(max_length=60, help_text='Required. Add a valid Email Address.')
+class FacultySignUpForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
 
-    class Meta:
-        model = Account
-        fields = ("first_name", "last_name", "unique_id", "email", "dob", "college", "department", "password1", "password2")
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_faculty = True
+        if commit:
+            user.save()
+        return user
 
 
 class AccountAuthenticationForm(forms.ModelForm):
@@ -17,7 +42,7 @@ class AccountAuthenticationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
-        model = Account
+        model = User
         fields = ('email', 'password')
 
     def clean(self):
