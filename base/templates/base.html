@@ -14,7 +14,13 @@
 </head>
 
 <body>
+
+  {% include 'snippets/header.html' %}
+
   {% block content %}
 	{% endblock content %}
+
+  {% include 'snippets/footer.html' %}
+  
 </body>
 </html>
