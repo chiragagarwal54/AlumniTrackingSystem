@@ -2,15 +2,19 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.db import transaction
+import datetime
 from college.models import College, Department
 from accounts.models import Alumni, Faculty, User
 
+def year_choices():
+    return [(r,r) for r in range(1947, datetime.date.today().year+1)]
+
 class AlumniSignUpForm(UserCreationForm):
-    college = forms.ModelChoiceField(
-        queryset=College.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True
-    )
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
+    unique_id = forms.CharField(max_length=200)
+    email = forms.EmailField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -19,23 +23,113 @@ class AlumniSignUpForm(UserCreationForm):
     def save(self):
         user = super().save(commit=False)
         user.is_alumni = True
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
         user.save()
-        alumni = Alumni.objects.create(user=user)
-        alumni.college = College.objects.get(college)
+        unique_id = self.cleaned_data['unique_id']
+        first_name = self.cleaned_data['first_name']
+        last_name = self.cleaned_data['last_name']
+        email_address = self.cleaned_data['email']
+        system_date_joined = datetime.datetime.now()
+        college = College.objects.get(name=self.cleaned_data['college'])
+
+        alumni = Alumni.objects.create(
+            user=user,
+            unique_id=unique_id,
+            first_name=first_name,
+            last_name=last_name,
+            college=college,
+            system_date_joined=system_date_joined,
+            email=email_address
+            )
         return user
 
 
 class FacultySignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
+    email = forms.EmailField()
+
     class Meta(UserCreationForm.Meta):
         model = User
 
-    def save(self, commit=True):
+    @transaction.atomic
+    def save(self):
         user = super().save(commit=False)
         user.is_faculty = True
-        if commit:
-            user.save()
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email_address = self.cleaned_data['email']
+        user.save()
+        first_name = self.cleaned_data['first_name']
+        last_name = self.cleaned_data['last_name']
+        system_date_joined = datetime.datetime.now()
+        college = College.objects.get(name=self.cleaned_data['college'])
+        email_address = self.cleaned_data['email']
+
+        faculty = Faculty.objects.create(
+            user=user,
+            first_name=first_name,
+            last_name=last_name,
+            college=college,
+            system_date_joined=system_date_joined,
+            email=email_address
+            )
         return user
 
+class CompleteAlumniProfile(forms.ModelForm):
+
+    department_choices = Department.objects.all()
+
+    department = forms.ModelChoiceField(queryset=department_choices, required=True)
+    dob = forms.DateField()
+    year_of_passing = forms.ChoiceField(choices=year_choices())
+
+    class Meta:
+        model = Alumni
+        fields = ('dob', 'department', 'year_of_passing')
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(CompleteAlumniProfile, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        user = self.user
+        alumni = Alumni.objects.get(user=self.user)
+        alumni.department = Department.objects.get(name=self.cleaned_data['department'])
+        alumni.dob = self.cleaned_data['dob']
+        alumni.year_of_passing = self.cleaned_data['year_of_passing']
+        alumni.profile_complete=1
+        alumni.save()
+
+class CompleteFacultyProfile(forms.ModelForm):
+
+    department_choices = Department.objects.all()
+
+    department = forms.ModelChoiceField(queryset=department_choices, required=True)
+    dob = forms.DateField()
+    college_joined_year = forms.ChoiceField(choices=year_choices())
+    research_interest = forms.CharField(max_length=300)
+
+    class Meta:
+        model = Alumni
+        fields = ('dob', 'department', 'college_joined_year', 'research_interest')
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(CompleteFacultyProfile, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        user = self.user
+        faculty = Faculty.objects.get(user=self.user)
+        faculty.department = Department.objects.get(name=self.cleaned_data['department'])
+        faculty.dob = self.cleaned_data['dob']
+        faculty.college_joined_year = self.cleaned_data['college_joined_year']
+        faculty.research_interest = self.cleaned_data['research_interest']
+        faculty.profile_complete=1
+        faculty.save()
 
 class AccountAuthenticationForm(forms.ModelForm):
 

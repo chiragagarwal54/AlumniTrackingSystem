@@ -6,15 +6,19 @@ from accounts.views import (
         logout_view,
         login_view,
         signup_view,
-)
+        complete_alumni_profile,
+        complete_faculty_profile,
+        )
 
 app_name='accounts'
 
 
 urlpatterns = [
+    path('complete_faculty_profile/', complete_faculty_profile, name="complete_faculty_profile"),
+    path('complete_alumni_profile/', complete_alumni_profile, name="complete_alumni_profile"),
     path('signup/alumni/', alumni_signup_view.as_view(), name="alumni_signup"),
     path('signup/faculty/', faculty_signup_view.as_view(), name="faculty_signup"),
-    path('signup/', signup_view, name="signup"),
+    path('signup/', signup_view, name="signup_view"),
     path('logout/', logout_view, name="logout"),
     path('login/', login_view, name="login"),
 ]

@@ -13,13 +13,15 @@ class Alumni(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    college = models.ForeignKey(College, on_delete=models.CASCADE)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    year_of_passing = models.IntegerField()
+    college = models.ForeignKey(College, on_delete=models.CASCADE, null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    year_of_passing = models.IntegerField(null=True)
     unique_id = models.CharField(unique=True, max_length=200)
     system_date_joined = models.DateTimeField(verbose_name="Date Joined", auto_now_add=True)
     system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
     dob = models.DateField(null=True)
+    email = models.EmailField(null=True)
+    profile_complete = models.BooleanField(default=0)
 
     def __str__(self):
         return self.first_name + " " + self.last_name + ", " + self.unique_id
@@ -29,19 +31,21 @@ class Faculty(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     college = models.ForeignKey(College, on_delete=models.CASCADE)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     dob = models.DateField(null=True)
-    college_joined_year = models.IntegerField()
+    college_joined_year = models.IntegerField(null=True)
     system_date_joined = models.DateTimeField(verbose_name="Date Joined", auto_now_add=True)
     system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
-    research_interest = models.TextField(null=True)
+    research_interest = models.CharField(max_length=300, null=True)
+    email = models.EmailField(null=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
+    profile_complete = models.BooleanField(default=0)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name + ", " + self.department + ", " + self.college
+        return self.first_name + " " + self.last_name + ", " + self.department.name + ", " + self.college.name
 
 # class MyAccountManager(BaseUserManager):
 #     def create_user(self, email, unique_id, first_name, last_name, college, dob, department, password=None):
