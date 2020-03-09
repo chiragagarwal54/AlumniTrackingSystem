@@ -1,1 +1,30 @@
 {% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Hello {{request.user}}!</h2>
+<h3>
+  {% if user.is_authenticated %}
+    {% if is_alumni %}
+      {% if alumni.profile_complete %}
+        Your profile is complete! <a href='{% url "accounts:logout" %}'>Logout</a>
+      {% else %}
+        incomplete profile
+      {% endif %}
+    {% elif is_faculty %}
+      {% if faculty.profile_complete %}
+        Your profile is complete! <a href='{% url "accounts:logout" %}'>Logout</a>
+      {% else %}
+        incomplete profile
+      {% endif %}
+    {% else %}
+      You are a superuser! <a href='{% url "accounts:logout" %}'>Logout</a>
+    {% endif %}
+  {% else %}
+    <a href='{% url "accounts:login" %}'>Login</a>
+    <a href='{% url "accounts:signup_view" %}'>SignUp</a>
+  {% endif %}
+
+</h3>
+
+{% endblock content %}

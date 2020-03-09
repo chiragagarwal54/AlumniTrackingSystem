@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'base',
+    'college',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'AlumniTrackingSystem.urls'
 
-AUTH_USER_MODEL = 'accounts.Account'
+AUTH_USER_MODEL = "accounts.User" 
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

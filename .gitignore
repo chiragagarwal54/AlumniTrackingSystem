@@ -16,4 +16,6 @@ accounts/migrations/00*
 
 base/migrations/00*
 
+college/migrations/00*
+
 .env
