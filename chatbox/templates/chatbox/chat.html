@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box</title>
+    {{ form.media.css }}
+</head>
+
+<body>
+    {% for message in messages %}
+        <p>{{ message.message_text|safe|escape }}</p>
+    {% endfor %}
+    <div style="width:50%; margin-left:10%; margin-top:20px;">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit" class="btn btn-success">>>>>>>></button>
+        </form>
+        {{ form.media.js }}
+    </div>
+</body>
+
+</html>

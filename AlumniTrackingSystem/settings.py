@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'accounts',
     'base',
     'college',
+    'chatbox',
+    'trix',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +149,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+
+TRIX_EXTENSIONS = ['.jpg','.png']
+TRIX_URI = 'trix'

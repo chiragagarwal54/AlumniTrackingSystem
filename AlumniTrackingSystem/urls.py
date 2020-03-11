@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('base.urls')),
     path('', include('accounts.urls')),
     path('', include('college.urls')),
+    path('', include('chatbox.urls')),
 ]
 
 if settings.DEBUG:
