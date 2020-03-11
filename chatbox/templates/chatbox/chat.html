@@ -10,17 +10,21 @@
 </head>
 
 <body>
-    {% for message in messages %}
-        <p>{{ message.message_text|safe|escape }}</p>
-    {% endfor %}
     <div style="width:50%; margin-left:10%; margin-top:20px;">
         <form action="" method="POST">
             {% csrf_token %}
             {{ form }}
             <button type="submit" class="btn btn-success">>>>>>>></button>
         </form>
-        {{ form.media.js }}
     </div>
+    {% for message in messages %}
+    <div>
+        <p>{{ message.message_text|safe|escape }}</p>
+        <p>{{ message.sent_by.username }}</p>
+        <p>{{ message.pub_date }}</p>
+    </div>
+    {% endfor %}
+    {{ form.media.js }}
 </body>
 
 </html>
