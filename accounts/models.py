@@ -21,6 +21,7 @@ class Alumni(models.Model):
     system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
     dob = models.DateField(null=True)
     email = models.EmailField(null=True)
+    profile_photo = models.ImageField(upload_to='profile_pics/',blank=True)
     profile_complete = models.BooleanField(default=0)
 
     def __str__(self):
@@ -42,6 +43,7 @@ class Faculty(models.Model):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
+    profile_photo = models.ImageField(upload_to='profile_pics/',blank=True)
     profile_complete = models.BooleanField(default=0)
 
     def __str__(self):

@@ -3,3 +3,5 @@ python-decouple
 psycopg2-binary
 django-trix-fork
 pillow
+channels
+channels-redis
