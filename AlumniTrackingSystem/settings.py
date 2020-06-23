@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'college',
     'channels',
     'chat',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
 TRIX_EXTENSIONS = ['.jpg','.png']
 TRIX_URI = 'trix'
+
+LOGIN_URL = '/'

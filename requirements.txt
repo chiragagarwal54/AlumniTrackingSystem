@@ -5,3 +5,4 @@ django-trix-fork
 pillow
 channels
 channels-redis
+django-extensions

@@ -3,51 +3,60 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 from college.models import College, Department
-from django.contrib.auth.models import User
+
 
 class User(AbstractUser):
     is_alumni = models.BooleanField(default=False)
     is_faculty = models.BooleanField(default=False)
-
-class Alumni(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    profile_photo = models.ImageField(upload_to="profile_pics/", blank=True)
+    profile_complete = models.BooleanField(default=0)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     college = models.ForeignKey(College, on_delete=models.CASCADE, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    dob = models.DateField(null=True)
+    system_date_joined = models.DateTimeField(
+        verbose_name="Date Joined", auto_now=True
+    )
+    system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
+    email = models.EmailField(null=True)
+
+
+class Alumni(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     year_of_passing = models.IntegerField(null=True)
     unique_id = models.CharField(unique=True, max_length=200)
-    system_date_joined = models.DateTimeField(verbose_name="Date Joined", auto_now_add=True)
-    system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
-    dob = models.DateField(null=True)
-    email = models.EmailField(null=True)
-    profile_photo = models.ImageField(upload_to='profile_pics/',blank=True)
-    profile_complete = models.BooleanField(default=0)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name + ", " + self.unique_id
+        return (
+            self.user.first_name
+            + " "
+            + self.user.last_name
+            + ", "
+            + self.user.unique_id
+        )
+
 
 class Faculty(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    college = models.ForeignKey(College, on_delete=models.CASCADE)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
-    dob = models.DateField(null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     college_joined_year = models.IntegerField(null=True)
-    system_date_joined = models.DateTimeField(verbose_name="Date Joined", auto_now_add=True)
-    system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
     research_interest = models.CharField(max_length=300, null=True)
-    email = models.EmailField(null=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
-    profile_photo = models.ImageField(upload_to='profile_pics/',blank=True)
-    profile_complete = models.BooleanField(default=0)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name + ", " + self.department.name + ", " + self.college.name
+        return (
+            self.user.first_name
+            + " "
+            + self.user.last_name
+            + ", "
+            + self.user.department.name
+            + ", "
+            + self.user.college.name
+        )
+
 
 # class MyAccountManager(BaseUserManager):
 #     def create_user(self, email, unique_id, first_name, last_name, college, dob, department, password=None):
