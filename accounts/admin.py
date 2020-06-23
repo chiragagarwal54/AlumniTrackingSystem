@@ -4,4 +4,4 @@ from accounts.models import Alumni, Faculty, User
 
 admin.site.register(Alumni)
 admin.site.register(Faculty)
-admin.site.register(User)
+admin.site.register(User, UserAdmin)

@@ -9,4 +9,4 @@ app_name='base'
 
 urlpatterns = [
     path('', home, name="home"),
-    ]
+]

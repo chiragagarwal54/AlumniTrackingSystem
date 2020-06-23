@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'accounts',
     'base',
     'college',
+    'channels',
+    'chat',
+    'django_extensions',
     'jobs',
 ]
 
@@ -79,7 +82,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'AlumniTrackingSystem.wsgi.application'
+ASGI_APPLICATION = "AlumniTrackingSystem.routing.application"
 
+ASGI_APPLICATION = 'AlumniTrackingSystem.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -126,7 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -148,3 +161,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+
+TRIX_EXTENSIONS = ['.jpg','.png']
+TRIX_URI = 'trix'
+
+LOGIN_URL = '/'
