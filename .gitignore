@@ -18,4 +18,6 @@ base/migrations/00*
 
 college/migrations/00*
 
+jobs/migrations/00*
+
 .env
