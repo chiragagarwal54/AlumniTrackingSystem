@@ -26,25 +26,19 @@ class AlumniSignUpForm(UserCreationForm):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
+        user.college = College.objects.get(name=self.cleaned_data['college'])
         user.save()
         unique_id = self.cleaned_data['unique_id']
         first_name = self.cleaned_data['first_name']
         last_name = self.cleaned_data['last_name']
         email_address = self.cleaned_data['email']
         system_date_joined = datetime.datetime.now()
-        college = College.objects.get(name=self.cleaned_data['college'])
 
         alumni = Alumni.objects.create(
             user=user,
             unique_id=unique_id,
-            first_name=first_name,
-            last_name=last_name,
-            college=college,
-            system_date_joined=system_date_joined,
-            email=email_address
             )
         return user
-
 
 class FacultySignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100)
@@ -62,20 +56,12 @@ class FacultySignUpForm(UserCreationForm):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.email_address = self.cleaned_data['email']
+        user.college = College.objects.get(name=self.cleaned_data['college'])
         user.save()
-        first_name = self.cleaned_data['first_name']
-        last_name = self.cleaned_data['last_name']
         system_date_joined = datetime.datetime.now()
-        college = College.objects.get(name=self.cleaned_data['college'])
-        email_address = self.cleaned_data['email']
 
         faculty = Faculty.objects.create(
             user=user,
-            first_name=first_name,
-            last_name=last_name,
-            college=college,
-            system_date_joined=system_date_joined,
-            email=email_address
             )
         return user
 
@@ -98,11 +84,12 @@ class CompleteAlumniProfile(forms.ModelForm):
     def save(self, commit=True):
         user = self.user
         alumni = Alumni.objects.get(user=self.user)
-        alumni.department = Department.objects.get(name=self.cleaned_data['department'])
-        alumni.dob = self.cleaned_data['dob']
+        user.department = Department.objects.get(name=self.cleaned_data['department'])
+        user.dob = self.cleaned_data['dob']
         alumni.year_of_passing = self.cleaned_data['year_of_passing']
-        alumni.profile_complete=1
+        user.profile_complete=1
         alumni.save()
+        user.save()
 
 class CompleteFacultyProfile(forms.ModelForm):
 
@@ -124,12 +111,13 @@ class CompleteFacultyProfile(forms.ModelForm):
     def save(self, commit=True):
         user = self.user
         faculty = Faculty.objects.get(user=self.user)
-        faculty.department = Department.objects.get(name=self.cleaned_data['department'])
-        faculty.dob = self.cleaned_data['dob']
+        user.department = Department.objects.get(name=self.cleaned_data['department'])
+        user.dob = self.cleaned_data['dob']
         faculty.college_joined_year = self.cleaned_data['college_joined_year']
         faculty.research_interest = self.cleaned_data['research_interest']
-        faculty.profile_complete=1
+        user.profile_complete=1
         faculty.save()
+        user.save()
 
 class AccountAuthenticationForm(forms.ModelForm):
 

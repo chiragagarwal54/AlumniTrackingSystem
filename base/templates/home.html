@@ -6,13 +6,13 @@
 <h3>
   {% if user.is_authenticated %}
     {% if is_alumni %}
-      {% if alumni.profile_complete %}
+      {% if user.profile_complete %}
         Your profile is complete! <a href='{% url "accounts:logout" %}'>Logout</a>
       {% else %}
         incomplete profile
       {% endif %}
     {% elif is_faculty %}
-      {% if faculty.profile_complete %}
+      {% if user.profile_complete %}
         Your profile is complete! <a href='{% url "accounts:logout" %}'>Logout</a>
       {% else %}
         incomplete profile

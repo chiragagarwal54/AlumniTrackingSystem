@@ -11,14 +11,14 @@ def home(request):
     if user.is_authenticated:
         if user.is_alumni:
             alumni = Alumni.objects.get(user=user)
-            if not alumni.profile_complete:
+            if not user.profile_complete:
                 return redirect('accounts:complete_alumni_profile')
             context['is_alumni']=1
             context['is_faculty']=0
             context['alumni']=alumni
         elif user.is_faculty:
             faculty = Faculty.objects.get(user=user)
-            if not faculty.profile_complete:
+            if not user.profile_complete:
                 return redirect('accounts:complete_faculty_profile')
             context['is_alumni']=0
             context['is_faculty']=1

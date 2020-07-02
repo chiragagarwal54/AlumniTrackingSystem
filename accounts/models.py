@@ -8,7 +8,7 @@ from college.models import College, Department
 class User(AbstractUser):
     is_alumni = models.BooleanField(default=False)
     is_faculty = models.BooleanField(default=False)
-    profile_photo = models.ImageField(upload_to="profile_pics/", blank=True)
+    profile_photo = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
     profile_complete = models.BooleanField(default=0)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -32,8 +32,6 @@ class Alumni(models.Model):
             self.user.first_name
             + " "
             + self.user.last_name
-            + ", "
-            + self.user.unique_id
         )
 
 
