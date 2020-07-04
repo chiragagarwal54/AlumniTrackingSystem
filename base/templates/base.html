@@ -17,10 +17,18 @@
 
   {% include 'snippets/header.html' %}
 
-  {% block content %}
-	{% endblock content %}
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-lg-3">
+
+        </div>
+        <div class="col col-lg-6 col-md-12 col-sm-12 col-12 main-part">
+          {% include 'snippets/carousel.html' %}
+        </div>
 
   {% include 'snippets/footer.html' %}
-  
+
 </body>
 </html>
