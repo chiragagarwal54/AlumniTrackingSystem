@@ -32,6 +32,14 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+class News(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    date_time = models.DateTimeField(auto_now=True)
+    body = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.title
 
 class Notice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -46,7 +54,7 @@ class Notice(models.Model):
 @receiver(post_delete, sender=Event)
 def submission_delete(sender, instance, **kwargs):
     instance.image.delete(False)
-    
+
 
 @receiver(post_delete, sender=Notice)
 def submission_delete(sender, instance, **kwargs):

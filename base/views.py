@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from accounts.models import Alumni, Faculty, User
+from base.models import Event, Notice, News
 
 def base(request):
     return render(request, 'base.html')
@@ -25,4 +26,15 @@ def home(request):
             context['faculty']=faculty
         else:
             context['is_superuser']=1
+    events = Event.objects.all().order_by('-date_time')
+    if(events.count()<3):
+        context['eventsitem']=events
+    else:
+        context['eventsitem']=events[0:3]
+    news = News.objects.all().order_by('-date_time')
+    if(news.count()<3):
+        context['newsitem']=news
+    else:
+        context['newsitem']=news[0:3]
+
     return render(request, 'home.html', context)

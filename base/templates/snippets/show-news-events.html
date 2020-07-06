@@ -1,0 +1,30 @@
+<!--
+newsitem
+eventsitem
+-->
+
+<div id="home-right-col" class="column small-12 large-3 large-push-9">
+  <div id="home-events" class="section">
+    <div class="section_heading">
+      <p>Latest Events</p>
+    </div>
+    <div class="section-content">
+      <ul>
+      {% for item in eventsitem %}
+        <li class="event">
+          <a href="#">
+            <div class="event-date">
+              <p class="date">{{item.date_time}}</p>
+            </div>
+            <div class="event-content">
+              <p>{{item.title}}</p>
+              <p>{{item.venue}}</p>
+              <p class="separator"></p>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
