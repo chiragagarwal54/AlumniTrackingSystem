@@ -26,8 +26,13 @@
         </div>
         <div class="col col-lg-6 col-md-12 col-sm-12 col-12 main-part">
           {% include 'snippets/carousel.html' %}
-        </div>
+          <hr style = "border: none">
+          {% include 'snippets/Gallery.html' %}
 
+        </div>
+      </div>
+
+      {% block content %}{% endblock content %}
   {% include 'snippets/footer.html' %}
 
 </body>
