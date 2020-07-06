@@ -4,6 +4,23 @@ eventsitem
 -->
 
 <div id="home-right-col" class="column small-12 large-3 large-push-9">
+  <div id="home-news" class="section">
+    <div class="section_heading">
+      <p>Latest News</p>
+    </div>
+    <div class="section-content">
+      <ul>
+      {% for item in newsitem %}
+        <li class="news-item">
+          <p class="date">{{item.date}}</p>
+          <a href="#">{{item.title}}</a>
+          <p class="separator"></p>
+        </li>
+      {% endfor %}
+      </ul>
+      <a href="#">View all</a>
+    </div>
+  </div>
   <div id="home-events" class="section">
     <div class="section_heading">
       <p>Latest Events</p>
