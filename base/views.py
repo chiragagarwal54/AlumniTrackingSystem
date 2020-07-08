@@ -48,3 +48,10 @@ def home(request):
         context['storyitem']=story[0]
 
     return render(request, 'home.html', context)
+
+def allnews(request):
+    context = {}
+    news=News.objects.all()
+    context['news']=news
+
+    return render(request, 'all-news.html', context)

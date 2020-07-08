@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="news-list-header">
+  <p>News and Updates</p>
+</div>
+
+<div class="col col-lg-8 col-md-12 col-sm-12 col-12" id="news-list">
+  {% for each in news %}
+  <a href="#">
+    <div class="news-item">
+      <div class="news-item-content">
+        <p class="news-item-title">{{each.title}}</p>
+        {% if each.user.is_alumni %}
+          <span class="news-item-meta">{{each.date_time}} -via Alumni</span>
+        {% else %}
+          <span class="news-item-meta">{{each.date_time}} -via University</span>
+        {% endif %}
+        <p class="news-item-text">{{each.title}}</p>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+{% endblock content %}
