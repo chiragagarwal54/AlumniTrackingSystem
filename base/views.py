@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from accounts.models import Alumni, Faculty, User
-from base.models import Event, Notice, News
+from base.models import Event, Notice, News, Story
 from jobs.models import Job
 
 def base(request):
@@ -42,5 +42,9 @@ def home(request):
         context['jobsitem']=jobs
     else:
         context['jobsitem']=jobs[0:2]
+
+    story=Story.objects.all().order_by('-date_time')
+    if(story.count()>0):
+        context['storyitem']=story[0]
 
     return render(request, 'home.html', context)

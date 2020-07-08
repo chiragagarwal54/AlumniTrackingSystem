@@ -50,6 +50,15 @@ class Notice(models.Model):
     def __str__(self):
         return self.title
 
+class Story(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    body = models.TextField()
+    date_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
 
 @receiver(post_delete, sender=Event)
 def submission_delete(sender, instance, **kwargs):

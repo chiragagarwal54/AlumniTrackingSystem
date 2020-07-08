@@ -1,0 +1,23 @@
+<!--
+storyitem
+-->
+{% if storyitem %}
+  <div id="home-right-col" class="column small-12 large-3 large-push-9">
+    <div class="home_story" class="section">
+      <div class="section_heading">
+        <p>Story</p>
+      </div>
+      <div class="section_content">
+        <div class="story_details">
+          <p class="story_title">{{storyitem.title}}</p>
+          <p class="story_author">{{storyitem.user.first_name}} {{storyitem.user.last_name}}</p>
+          <p class="separator"></p>
+          <div class="content">
+            <p>{{storyitem.body}}</p>
+          </div>
+        </div>
+        <a href="#">Read Full Story</a>
+      </div>
+    </div>
+  </div>
+{% endif %}
