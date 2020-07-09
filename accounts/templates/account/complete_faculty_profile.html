@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+{% load static %}
+<link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
+</style>
   <div class="row">
     <div class="col-md-8 col-sm-10 col-12">
-      <h2>Welcome {{request.user}}! Complete your profile to continue!</h2>
-      <form method="post" novalidate>
+      <div class="container"><h2>Welcome {{request.user}}! Complete your profile to continue!</h2></div>
+      <form method="post" id="regForm" novalidate>
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {{ profile_form }}
+        <p>Date of Birth<input type="date" name="dob" id="id_dob" class="form-control" placeholder="DD/MM/YYYY" required></p>
+        <p>Department<select name="department" id="id_department" class="form-control" required></p>
+          {%for cl in profile_form.department %}
+          <option value="{{cl}}"></option>
+          {%endfor%}
+          </select>
+          <p>Joined College in Year<select name="college_joined_year" id="id_college_joined_year"></p>
+          {%for cl in profile_form.college_joined_year %}
+          <option value="{{cl}}"></option>
+          {%endfor%}
+          </select>
+          <p>Research Interest<input type="text" name="research_interest" id="id_research_interest" class="form-control" placeholder="e.g ML, AI, Simulation etc" required></p>
+          <br>
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
     </div>
