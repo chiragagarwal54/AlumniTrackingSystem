@@ -5,24 +5,21 @@
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 {% load static %}
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
-</style>
   <div class="row">
     <div class="col-md-8 col-sm-10 col-12">
       <div class="container"><h2>Welcome {{request.user}}! Complete your profile to continue!</h2></div>
       <form method="post" id="regForm" novalidate>
         {% csrf_token %}
-        <p>Date of Birth<input type="date" name="dob" id="id_dob" class="form-control" placeholder="DD/MM/YYYY" required></p>
-        <p>Department<select name="department" id="id_department" class="form-control" required></p>
-          {%for cl in profile_form.department %}
-          <option value="{{cl}}"></option>
-          {%endfor%}
-          </select>
-          <p>Year of Passing<select name="year_of_passing" id="id_year_of_passing"></p>
-          {%for cl in profile_form.year_of_passing %}
-          <option value="{{cl}}"></option>
-          {%endfor%}
-          </select>
-          <br>
+        <p>Date of Birth
+          {{form.dob}}
+        </p>
+        <p>Department
+          {{form.department}}
+        </p>
+        <p>Year of Passing
+          {{form.year_of_passing}}
+        </p>
+        <br>
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
     </div>

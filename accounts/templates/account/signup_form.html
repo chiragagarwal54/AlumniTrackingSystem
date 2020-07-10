@@ -1,22 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  
+
 
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 {% load static %}
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
-</style>
 
 
 <form id="regForm" method="post" novalidate>{% csrf_token %}
   <h1>Sign Up as {{user_type}}</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">
-    <p>Username:<input type="text" name="username" id="inputUsername" class="form-control" placeholder="Enter a Username" required></p>
+    <p>Username:
+      {{form.username}}
+    </p>
     <small style="color: grey;">*Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
     <br>
-    <p>Password:<input type="password" name="password1" id="inputPassword1" class="form-control" placeholder="Enter a Password" required></p>
+    <p>Password:
+      {{form.password1}}
+    </p>
     <small style="color: grey;">
       <ul>
         <li>Your password can’t be too similar to your other personal information.</li>
@@ -26,26 +29,32 @@
       </ul>
     </small>
     <br>
-    <p>Confirm Password:<input type="password" name="password2" id="inputPassword2" class="form-control" placeholder="Enter the same Password" required></p>
+    <p>Confirm Password:
+      {{form.password2}}
+    </p>
   </div>
 
   <div class="tab">
-    <p>First Name<input type="text" name="first_name" id="inputFirst_name" class="form-control" placeholder="First Name" required></p>
-    <p>Last Name<input type="text" name="last_name" id="inputLast_name" class="form-control" placeholder="Last Name" required></p>
+    <p>First Name
+      {{form.first_name}}
+    </p>
+    <p>Last Name
+      {{form.last_name}}
+    </p>
   </div>
 
   <div class="tab">
-    <p>College<select name="college" id="inputCollege" class="form-control" required></p>
-    {%for cl in form.college%}
-    <option value="{{cl}}"></option>
-    {%endfor%}
-    </select>
-    <p>  </p>
-    
+    <p>College
+      {{form.college}}
+    </p>
   </div>
   <div class="tab">
-    <p>Unique ID<input type="text" name="unique_id" id="inputUnique_id" class="form-control" placeholder="Enter UID provided to You" required></p>
-    <p>Email ID<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus></p>
+    <p>Unique ID
+      {{form.unique_id}}
+    </p>
+    <p>Email ID
+      {{form.email}}
+    </p>
     <button type="submit" class="btn btn-success">Sign up</button>
   </div>
   <div style="overflow:auto;">

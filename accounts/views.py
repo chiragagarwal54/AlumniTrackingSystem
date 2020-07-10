@@ -52,7 +52,7 @@ def complete_alumni_profile(request):
     else:
         form = CompleteAlumniProfile(request.user)
 
-    context['profile_form']=form
+    context['form']=form
     return render(request, 'account/complete_alumni_profile.html', context)
 
 def complete_faculty_profile(request):
@@ -70,7 +70,7 @@ def complete_faculty_profile(request):
     else:
         form = CompleteFacultyProfile(request.user)
 
-    context['profile_form']=form
+    context['form']=form
     return render(request, 'account/complete_faculty_profile.html', context)
 
 
