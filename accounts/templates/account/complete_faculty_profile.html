@@ -6,26 +6,37 @@
 {% load static %}
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
 </style>
-  <div class="row">
-    <div class="col-md-8 col-sm-10 col-12">
-      <div class="container"><h2>Welcome {{request.user}}! Complete your profile to continue!</h2></div>
-      <form method="post" id="regForm" novalidate>
-        {% csrf_token %}
-        <p>Date of Birth<input type="date" name="dob" id="id_dob" class="form-control" placeholder="DD/MM/YYYY" required></p>
-        <p>Department<select name="department" id="id_department" class="form-control" required></p>
-          {%for cl in profile_form.department %}
-          <option value="{{cl}}"></option>
-          {%endfor%}
-          </select>
-          <p>Joined College in Year<select name="college_joined_year" id="id_college_joined_year"></p>
-          {%for cl in profile_form.college_joined_year %}
-          <option value="{{cl}}"></option>
-          {%endfor%}
-          </select>
-          <p>Research Interest<input type="text" name="research_interest" id="id_research_interest" class="form-control" placeholder="e.g ML, AI, Simulation etc" required></p>
-          <br>
-        <button type="submit" class="btn btn-success">Submit</button>
-      </form>
-    </div>
+<div class="row">
+  <div class="col-md-8 col-sm-10 col-12">
+    <div class="container"><h2>Welcome {{request.user}}! Complete your profile to continue!</h2></div>
+    <form method="post" id="regForm" novalidate>
+      {% csrf_token %}
+      <p>Date of Birth
+        {{form.dob}}
+      </p>
+      <p>Department
+        {{form.department}}
+      </p>
+      <p>College Joined Year
+        {{form.college_joined_year}}
+      </p>
+      <p>Research Interest
+        {{form.research_interest}}
+      </p>
+      <br>
+      <button type="submit" class="btn btn-success">Submit</button>
+      {% for field in form %}
+  {% for error in field.errors %}
+    <p style="color: red;">{{error}}</p>
+  {% endfor %}
+{% endfor %}
+
+{% if login_form.non_field_errors %}
+  <div style="color:red;">
+    <p>{{login_form.non_field_errors}}</p>
   </div>
+{% endif %}
+    </form>
+  </div>
+</div>
 {% endblock %}
