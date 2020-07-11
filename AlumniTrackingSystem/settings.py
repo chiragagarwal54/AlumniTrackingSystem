@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'chat',
     'django_extensions',
     'jobs',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -166,3 +167,6 @@ TRIX_EXTENSIONS = ['.jpg','.png']
 TRIX_URI = 'trix'
 
 LOGIN_URL = '/'
+
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')

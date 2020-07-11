@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('college.urls')),
     path('', include('chat.urls')),
+    path('', include('payments.urls'))
 ]
 
 if settings.DEBUG:
