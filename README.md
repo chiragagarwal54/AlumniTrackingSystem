@@ -32,4 +32,17 @@ You will be back to the original terminal.
 18. `python manage.py migrate`
 19. `python manage.py runserver`
 
-The website is now up and running at `https://localhost:8000/`
+The website is now up and running at `http://localhost:8000/`
+
+To Check the reak-time chat function you need to install redis. Steps to install redis are as follows:
+
+1. `sudo apt install redis-server`
+2. `sudo nano /etc/redis/redis.conf`
+3. Inside the file find the `supervised` directive and change it to `systemd`. It should be set to `no` by     default.
+4. `sudo systemctl restart redis.service`
+
+To check if redis is working or not:
+
+1. Type in `redis-cli`
+2. Type `ping`
+3. If it returns `PONG`, then your redis-broker server is running fine.
