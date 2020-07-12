@@ -32,6 +32,17 @@
     <p>Confirm Password:
       {{form.password2}}
     </p>
+    {% for field in form %}
+    {% for error in field.errors %}
+      <p style="color: red;">{{error}}</p>
+    {% endfor %}
+  {% endfor %}
+
+  {% if login_form.non_field_errors %}
+    <div style="color:red;">
+      <p>{{login_form.non_field_errors}}</p>
+    </div>
+  {% endif %}
   </div>
 
   <div class="tab">
@@ -56,6 +67,7 @@
       {{form.email}}
     </p>
     <button type="submit" class="btn btn-success">Sign up</button>
+   
   </div>
   <div style="overflow:auto;">
     <div style="float:right;">
