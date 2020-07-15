@@ -7,4 +7,5 @@ urlpatterns = [
     path('create-checkout-session/', views.create_checkout_session, name="checkout_session"),
     path('success/', views.success_view, name="success"),
     path('cancelled/', views.cancelled_view, name="cancelled"),
+    path('donate/<dono_id>/', views.donate_main, name="donate main"),
 ]

@@ -8,15 +8,19 @@
     <title>Payment Home Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src = "{% static 'payments/js/main.js' %}"></script>
 </head>
 
 <body>
     <section class="section">
+        {% for donation in donations %}
         <div class="container">
-            <button class="button is-primary" id="submitBtn">Purchase!</button>
+            <p>{{ donation.donation_name }}</p>
+            <p>{{ donation.description }}</p>
+            <button class="button is-primary" id="{{ donation.donation_id }}"><a
+                    href="{% url 'donate main' dono_id=donation.donation_id %}" style="text-decoration: none;">{{ donation.donation_name }}</a></button>
         </div>
+        <br />
+        {% endfor %}
     </section>
 </body>
 
