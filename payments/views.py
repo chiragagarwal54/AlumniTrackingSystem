@@ -7,6 +7,7 @@ import stripe
 from payments.models import DonationType, DonationAmount
 
 # Create your views here.
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required()
@@ -35,7 +36,6 @@ def stripe_config(request):
 def create_checkout_session(request):
     if request.method == "POST":
         domain_url = "{}://{}/".format(request.scheme, request.get_host())
-        stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
             checkout_session = stripe.checkout.Session.create(
                 success_url=domain_url + "success?success_id={CHECKOUT_SESSION_ID}",
@@ -57,7 +57,17 @@ def create_checkout_session(request):
 
 
 def success_view(request):
-    return render(request, "payments/success.html")
+    try:
+        transaction = stripe.checkout.Session.list_line_items(
+            request.GET.get("success_id"), limit=5
+        )
+        context = {
+            'amount_total' : transaction.data[0].amount_subtotal,
+            'currency' : transaction.data[0].currency
+        }
+        return render(request, "payments/success.html", context)
+    except:
+        return render(request, "payments/error.html")
 
 
 def cancelled_view(request):
