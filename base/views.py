@@ -74,3 +74,7 @@ def speceficevent(request, event_id):
     context['event']=event
 
     return render(request, 'specific-event.html', context)
+
+
+def profile(request):
+    return render(request,'profile.html')
