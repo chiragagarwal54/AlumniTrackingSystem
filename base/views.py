@@ -3,6 +3,8 @@ from django.urls import reverse
 from accounts.models import Alumni, Faculty, User
 from base.models import Event, Notice, News, Story
 from jobs.models import Job
+from django.db.models import Q
+import datetime
 
 def base(request):
     return render(request, 'base.html')
@@ -27,7 +29,7 @@ def home(request):
             context['faculty']=faculty
         else:
             context['is_superuser']=1
-    events = Event.objects.all().order_by('-date_time')
+    events = Event.objects.all().order_by('-start_date')
     if(events.count()<3):
         context['eventsitem']=events
     else:
@@ -55,3 +57,20 @@ def allnews(request):
     context['news']=news
 
     return render(request, 'all-news.html', context)
+
+def allevents(request):
+    context = {}
+    today = datetime.datetime.today()
+    upcoming_events = Event.objects.filter(Q(start_date__gte=today))
+    past_events = Event.objects.filter(Q(start_date__lte=today))
+    context['upcoming_events']=upcoming_events
+    context['past_events']=past_events
+
+    return render(request, 'all-events.html', context)
+
+def speceficevent(request, event_id):
+    context = {}
+    event = Event.objects.get(id=event_id)
+    context['event']=event
+
+    return render(request, 'specific-event.html', context)

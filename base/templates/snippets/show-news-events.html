@@ -29,9 +29,9 @@ eventsitem
       <ul>
       {% for item in eventsitem %}
         <li class="event">
-          <a href="#">
+          <a href="{% url 'base:speceficevent' item.id %}">
             <div class="event-date">
-              <p class="date">{{item.date_time}}</p>
+              <p class="date">{{item.start_date}}</p>
             </div>
             <div class="event-content">
               <p>{{item.title}}</p>
@@ -42,6 +42,7 @@ eventsitem
         </li>
       {% endfor %}
       </ul>
+      <a href="{% url 'base:allevents' %}">View all</a>
     </div>
   </div>
 </div>
