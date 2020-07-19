@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="event-page-title">
+  <p>Events</p>
+</div>
+
+<div class="page_content">
+  <div id="upcoming_events">
+    <p>Upcoming Events</p>
+    <div class="row">
+      {% for each in upcoming_events %}
+      <a href="{% url 'base:speceficevent' each.id %}">
+        <div class="col lg-6 sm-12 event-column">
+          <div class="event-block">
+            <p class="event-title">{{each.title}}</p>
+            <p class="event-date">{{each.start_date}}</p>
+            <p class="event-venue">{{each.venue}}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div id="past_events">
+    <p>Past Events</p>
+    <div class="row">
+      {% for each in past_events %}
+      <a href="{% url 'base:speceficevent' each.id %}">
+        <div class="col lg-6 sm-12 event-column">
+          <div class="event-block">
+            <p class="event-title">{{each.title}}</p>
+            <p class="event-date">{{each.start_date}}</p>
+            <p class="event-venue">{{each.venue}}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
