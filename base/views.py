@@ -81,3 +81,6 @@ def speceficnews(request, news_id):
     context['news']=news
 
     return render(request, 'specefic-news.html', context)
+
+def profile(request):
+    return render(request,'profile.html')
