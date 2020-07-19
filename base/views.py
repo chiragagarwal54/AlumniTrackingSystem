@@ -74,3 +74,10 @@ def speceficevent(request, event_id):
     context['event']=event
 
     return render(request, 'specific-event.html', context)
+
+def speceficnews(request, news_id):
+    context = {}
+    news = News.objects.get(id=news_id)
+    context['news']=news
+
+    return render(request, 'specefic-news.html', context)

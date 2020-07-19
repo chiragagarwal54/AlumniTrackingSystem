@@ -43,7 +43,7 @@ class News(models.Model):
     title = models.CharField(max_length=150)
     date_time = models.DateTimeField(auto_now=True)
     body = models.CharField(max_length=1000)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True, blank=True, default="")
 
     def __str__(self):
         return self.title

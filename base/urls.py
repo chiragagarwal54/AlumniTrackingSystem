@@ -6,6 +6,7 @@ from base.views import(
     allnews,
     allevents,
     speceficevent,
+    speceficnews,
 )
 
 app_name='base'
@@ -13,6 +14,7 @@ app_name='base'
 urlpatterns = [
     path('', home, name="home"),
     path('event/<int:event_id>', speceficevent, name="speceficevent"),
-    path('allnews', allnews, name="allnews"),
-    path('allevents', allevents, name="allevents")
+    path('news/<int:news_id>', speceficnews, name="speceficnews"),
+    path('news', allnews, name="allnews"),
+    path('events', allevents, name="allevents")
 ]

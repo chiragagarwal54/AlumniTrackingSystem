@@ -12,9 +12,11 @@ eventsitem
       <ul>
       {% for item in newsitem %}
         <li class="news-item">
-          <p class="date">{{item.date}}</p>
-          <a href="#">{{item.title}}</a>
-          <p class="separator"></p>
+          <a href="{% url 'base:speceficnews' item.id %}">
+            <p class="date">{{item.date}}</p>
+            <p>{{item.title}}</p>
+            <p class="separator"></p>
+          </a>
         </li>
       {% endfor %}
       </ul>
