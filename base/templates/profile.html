@@ -10,13 +10,27 @@
         </div>
         <div class="col col-lg-6 col-md-12 col-sm-12 col-12 main-part">
           <div class="container-fluid profile-top">
-            <img class="card-img-top profilepic" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Card image cap">
+            <img class="card-img-top profilepic" src="{request.user.profile_photo.url}" alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">{{request.user.first_name}}</h5>
-              <p class="card-text">College: {{request.user.college}}</p>
-              <p class="card-text">YearOfPassingOut:</p>
-              <p class="card-text">Dept:{{request.user.department}}</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              {% if is_alumni %}
+                <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
+                <p class="card-text">College: {{user.college}}</p>
+                <p class="card-text">Dept: {{user.department}}</p>
+                <p class="card-text">Year Of Passing Out: {{alumni.year_of_passing}}</p>
+              {% elif is_faculty %}
+                <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
+                <p class="card-text">College: {{user.college}}</p>
+                <p class="card-text">Dept: {{user.department}}</p>
+                <p class="card-text">Year of joining college: {{faculty.college_joined_year}}</p>
+                <p class="card-text">Research interest: {{faculty.research_interest}}</p>
+              {% else %}
+                <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
+                <p>You are SuperUser!</p>
+              {% endif %}
+
+              {% if editprofile %}
+                <a href="{% url 'accounts:update_alumni_profile' %}"<button>Edit Profile</button></a>
+              {% endif %}
             </div>
           </div>
 

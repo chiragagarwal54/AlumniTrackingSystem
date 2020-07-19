@@ -4,7 +4,7 @@
     {% if user.is_authenticated %}
       Hello {{request.user.first_name}}
     {% else %}
-      Welcome!
+      Welcome! Please Login/SignUp
     {% endif %}
   </a>
 
@@ -25,9 +25,12 @@
           <a class="nav-link" href="/login">Login</a>
         </li>
       {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'base:profile' request.user.first_name request.user.id %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
       {% endif %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

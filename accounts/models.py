@@ -19,7 +19,7 @@ class User(AbstractUser):
         verbose_name="Date Joined", auto_now=True
     )
     system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
-    email = models.EmailField(null=True)
+    email = models.EmailField(null=True, unique=True)
 
 
 class Alumni(models.Model):

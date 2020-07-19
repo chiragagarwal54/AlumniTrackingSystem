@@ -82,5 +82,22 @@ def speceficnews(request, news_id):
 
     return render(request, 'specefic-news.html', context)
 
-def profile(request):
-    return render(request,'profile.html')
+def profile(request, user_name, user_id):
+    context = {}
+    user = User.objects.get(id=user_id)
+    if(user.is_alumni):
+        alumni = Alumni.objects.get(user=user)
+        context['is_alumni']=1
+        context['is_faculty']=0
+        context['alumni']=alumni
+    elif(user.is_faculty):
+        faculty = Faculty.objects.get(user=user)
+        context['is_alumni']=0
+        context['is_faculty']=1
+        context['faculty']=faculty
+    context['user'] = user
+    context['editprofile']=0
+    if(user==request.user):
+        context['editprofile']=1
+
+    return render(request,'profile.html', context)

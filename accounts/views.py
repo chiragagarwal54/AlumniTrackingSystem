@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse
 from django.http import HttpResponse
-from accounts.forms import AlumniSignUpForm, FacultySignUpForm, AccountAuthenticationForm, CompleteAlumniProfile, CompleteFacultyProfile
+from accounts.forms import AlumniSignUpForm, FacultySignUpForm, AccountAuthenticationForm, CompleteAlumniProfile, CompleteFacultyProfile, UpdateAlumniProfile
 from django.views.generic import CreateView, ListView, UpdateView
 from accounts.models import User
 
@@ -96,39 +96,19 @@ def login_view(request):
     else:
         return render(request, 'account/login.html')
 
-# def login_view(request):
-#
-#     user=request.user
-#     if user.is_authenticated:
-#         return redirect("base:home")
-#
-#     username = request.POST['username']
-#     password = request.POST['password']
-#     user = authenticate(request, username=username, password=password)
-#     if user is not None:
-#         login(request, user)
-#     else
+def update_alumni_profile(request):
 
+    context = {}
 
-    # context = {}
-    #
-    # user=request.user
-    # if user.is_authenticated:
-    #     return redirect("base:home")
-    #
-    # if request.POST:
-    #     form = AccountAuthenticationForm(request.POST)
-    #     if form.is_valid():
-    #         email=request.POST['email']
-    #         password=request.POST['password']
-    #         user=authenticate(request, email=email, password=password)
-    #
-    #         if user:
-    #             login(request, user)
-    #             return redirect("base:home")
-    #
-    # else:
-    #     form=AccountAuthenticationForm()
-    #
-    # context['login_form'] = form
-    # return render(request, 'account/login.html', context)
+    user=request.user
+
+    if request.POST:
+        form = UpdateAlumniProfile(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('base:home')
+    else:
+        form = UpdateAlumniProfile(instance=request.user)
+
+    context['form']=form
+    return render(request, 'account/editprofile.html', context)
