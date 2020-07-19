@@ -50,12 +50,12 @@
     <script>
         var username = "{{ user.username }}";
         var old_msg_page_count = 0;
-        var roomName = "room";
+        var roomName = "{{ room_name }}";
         console.log(username);
         var new_uri = window.location.protocol === 'https://' ? 'wss://' : 'ws://';
         const chatSocket = new ReconnectingWebSocket(
             new_uri + window.location.host +
-            '/ws/chat/' + 'room' + '/');
+            '/ws/chat/' + roomName+ '/');
         // const chatSocket = new WebSocket(
         //     'ws://'
         //     + window.location.host
@@ -113,15 +113,16 @@
                 'message': message,
                 'from': username,
                 'command': 'new_message',
+                'roomName': roomName
             }));
             messageInputDom.value = '';
         };
 
         function fetchMessages(recent) {
             if (recent) {
-                chatSocket.send(JSON.stringify({ 'command': 'fetch_messages' }));
+                chatSocket.send(JSON.stringify({ 'command': 'fetch_messages', 'roomName': roomName }));
             }
-            chatSocket.send(JSON.stringify({ 'command': 'fetch_old_messages' }));
+            chatSocket.send(JSON.stringify({ 'command': 'fetch_old_messages', 'roomName' : roomName }));
         }
 
         function convertToMonth(index) {
