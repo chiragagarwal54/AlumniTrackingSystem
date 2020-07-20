@@ -47,3 +47,5 @@ websockets==8.1
 wrapt==1.11.2
 yapf==0.29.0
 zope.interface==5.1.0
+django-ckeditor==5.9.0
+html2text==2020.1.16

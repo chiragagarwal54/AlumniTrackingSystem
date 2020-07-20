@@ -9,7 +9,8 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('college.urls')),
     path('', include('chat.urls')),
-    path('', include('payments.urls'))
+    path('', include('payments.urls')),
+    path('mail/',include('mailer.urls')),
 ]
 
 if settings.DEBUG:

@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from accounts.models import User, Alumni, Faculty
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
-
+from django.utils.timezone import localdate, localtime
 
 def upload_event_image_location(instance, filename):
     file_path = 'event/{event_id}/{filename}'.format(
@@ -26,14 +26,14 @@ def upload_notice_image_location(instance, filename):
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_date = models.DateField(default=localdate)
+    end_date = models.DateField(default=localdate)
+    start_time = models.TimeField(default=localtime)
+    end_time = models.TimeField(default=localtime)
     venue = models.CharField(max_length=300)
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
     body = models.CharField(max_length=1000)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, default="unique")
 
     def __str__(self):
         return self.title
