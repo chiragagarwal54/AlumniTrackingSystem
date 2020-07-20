@@ -1,5 +1,6 @@
 from django import forms
 from ckeditor.widgets import CKEditorWidget
+from college.models import College
 
 
 class MailComposeForm(forms.Form):
@@ -12,6 +13,12 @@ class MailComposeForm(forms.Form):
                 "placeholder": "Use comma(,) separated addresses for multiple recipients."
             }
         ),
+    )
+    college = forms.ModelChoiceField(
+        queryset=College.objects.all().order_by("name"),
+        to_field_name="name",
+        required=False,
+        label="If you want to send an E-Mail to the whole College"
     )
     body = forms.CharField(
         label="Message",

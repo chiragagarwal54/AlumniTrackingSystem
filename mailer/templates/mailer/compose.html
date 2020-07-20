@@ -40,6 +40,10 @@
             display: inline;
             font-size: 1.5em;
         }
+
+        select {
+            display: block !important;
+        }
     </style>
 </head>
 
@@ -81,6 +85,21 @@
                 console.error(error);
             });
 
+        document.getElementById("id_college").onchange = changeListener;
+        const to = document.getElementById("id_to");
+
+        function changeListener() {
+            var value = this.value;
+
+            if (value == "") {
+                to.setAttribute("required",true);
+                to.removeAttribute("disabled");
+            }
+            else {
+                to.removeAttribute("required");
+                to.setAttribute("disabled", true);
+            }
+        }
     </script>
 </body>
 
