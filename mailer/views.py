@@ -47,11 +47,16 @@ def send_mail(req):
     if req.method == "POST":
         subject = req.POST["subject"]
         body = req.POST["body"]
+        file = ""
         try:
             to = req.POST["to"]
         except:
             pass
         college = req.POST["college"]
+        try:
+            file = req.FILES["attachment"]
+        except:
+            pass
         if college != "":
             temp = []
             User = get_user_model()
@@ -66,7 +71,8 @@ def send_mail(req):
 
         msg = EmailMultiAlternatives(subject, text_msg, from_email, to)
         msg.attach_alternative(html_msg, "text/html")
-
+        if file != "":
+            msg.attach(file.name, file.read(), file.content_type)
         try:
             msg.send()
             m = MailSent(

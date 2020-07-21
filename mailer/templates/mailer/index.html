@@ -40,19 +40,19 @@
 
 <body>
     <div class="container-fluid back">
-        <a class="btn-floating btn-large waves-effect waves-light orange" href="{% url 'admin:index' %}"><i
+        <a class="btn-floating btn-large waves-effect waves-light blue" href="{% url 'admin:index' %}"><i
                 class="material-icons">arrow_back</i></a>
         <p class="back-text">Go back to Admin</p>
     </div>
     <div class="container">
         {% if not check %}
-        <div class="conatiner-fluid card-panel red">
+        <div class="conatiner-fluid card-panel blue">
             <h6>E-mail client is not configured properly. Contact Admin.</h6>
         </div>
         {% endif %}
         <h2>Mailer</h2>
         <div class="container-fluid">
-            <a class="btn-floating btn-large waves-effect waves-light orange" href="{{ '/mail/send/' }}"><i
+            <a class="btn-floating btn-large waves-effect waves-light blue" href="{{ '/mail/send/' }}"><i
                     class="material-icons">add</i></a>
             <p class="compose">Compose new</p>
         </div>
