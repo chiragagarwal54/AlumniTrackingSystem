@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{story.title}}</h2>
+<p>By {{story.user.first_name}} {{story.user.last_name}}</p>
+<p>Written on {{story.date_time}}</p>
+<br><br>
+<p>{{story.body}}</p>
+
+{% endblock content %}

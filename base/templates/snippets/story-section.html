@@ -16,7 +16,7 @@ storyitem
             <p>{{storyitem.body}}</p>
           </div>
         </div>
-        <a href="#">Read Full Story</a>
+        <a href="{% url 'base:speceficstory' storyitem.id %}">Read Full Story</a>
       </div>
     </div>
   </div>

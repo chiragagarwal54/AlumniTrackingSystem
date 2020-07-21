@@ -82,6 +82,13 @@ def speceficnews(request, news_id):
 
     return render(request, 'specefic-news.html', context)
 
+def speceficstory(request, story_id):
+    context = {}
+    story = Story.objects.get(id=story_id)
+    context['story']=story
+
+    return render(request, 'specefic-story.html', context)
+
 def profile(request, user_name, user_id):
     context = {}
     user = User.objects.get(id=user_id)

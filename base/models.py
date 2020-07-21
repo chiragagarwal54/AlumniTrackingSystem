@@ -62,7 +62,7 @@ class Story(models.Model):
     title = models.CharField(max_length=150)
     body = models.TextField()
     date_time = models.DateTimeField(auto_now=True)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True, blank=True, default="")
 
     def __str__(self):
         return self.title
