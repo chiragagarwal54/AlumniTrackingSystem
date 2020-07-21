@@ -8,6 +8,7 @@ from base.views import(
     speceficevent,
     speceficnews,
     profile,
+    searchalumni,
 )
 
 app_name='base'
@@ -19,4 +20,5 @@ urlpatterns = [
     path('news/<int:news_id>', speceficnews, name="speceficnews"),
     path('news', allnews, name="allnews"),
     path('events', allevents, name="allevents"),
+    path('searchalumni', searchalumni, name="searchalumni"),
 ]

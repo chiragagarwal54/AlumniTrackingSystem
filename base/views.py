@@ -101,3 +101,27 @@ def profile(request, user_name, user_id):
         context['editprofile']=1
 
     return render(request,'profile.html', context)
+
+def searchalumni(request):
+    context = {}
+    query = ""
+
+    if request.GET:
+        query = request.GET['q']
+
+    context = get_queryset(str(query))
+    context['query'] = str(query)
+
+    return render(request, 'search_alumni.html', context)
+
+def get_queryset(query=None):
+    queryset = {}
+    queries = query.split(" ")
+    if query:
+        for q in queries:
+            alumnis = User.objects.filter(
+                    Q(first_name__icontains=q) or Q(last_name__icontains=q)).filter(is_alumni=1).distinct()
+
+            queryset['users'] = alumnis
+
+    return queryset

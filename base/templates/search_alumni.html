@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form class="form-inline my-5 my-lg-0 pl-4" method="get">
+	<div class="search__wrapper">
+		<input type="text" name="q" id="id_q" placeholder="Search Alumni" class="search__field">
+		<button type="submit" class="fa fa-search search__icon"></button>
+	</div>
+</form>
+
+{{len}}
+
+{% for each in users %}
+  <div>
+    <a href="{% url 'base:profile' each.first_name each.id %}"><p>{{each.first_name}} {{each.last_name}}</p></a>
+  </div>
+{% endfor %}
+
+{% endblock content %}
