@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-
 from college.models import College, Department
 
 
@@ -12,6 +11,7 @@ class User(AbstractUser):
     profile_complete = models.BooleanField(default=0)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    full_name = models.SlugField(editable=False, null=True, blank=True)
     college = models.ForeignKey(College, on_delete=models.CASCADE, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     dob = models.DateField(null=True)

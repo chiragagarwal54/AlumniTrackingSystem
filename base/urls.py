@@ -10,6 +10,7 @@ from base.views import(
     profile,
     searchalumni,
     speceficstory,
+    autocomplete
 )
 
 app_name='base'
@@ -23,4 +24,5 @@ urlpatterns = [
     path('news', allnews, name="allnews"),
     path('events', allevents, name="allevents"),
     path('searchalumni', searchalumni, name="searchalumni"),
+    path('autocomplete', autocomplete, name="autocomplete")
 ]

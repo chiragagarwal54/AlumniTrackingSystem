@@ -6,6 +6,7 @@
 	<div class="search__wrapper">
 		<input type="text" name="q" id="id_q" placeholder="Search Alumni" class="search__field">
 		<button type="submit" class="fa fa-search search__icon"></button>
+		<ul id="results"></ul>
 	</div>
 </form>
 
@@ -18,3 +19,29 @@
 {% endfor %}
 
 {% endblock content %}
+{% block js %}
+<style>
+	.ui-autocomplete{
+		z-index: 2000 !important;
+	}
+</style>
+<script>
+	$( function(){
+		var $elem = $('#id_q').autocomplete({ source: "{% url 'base:autocomplete' %}" }),
+				elemAutocomplete = $elem.data('ui-autocomplete') || $elem.data('autocomplete');
+		if(elemAutocomplete){
+			var ul = document.getElementById("results");
+			elemAutocomplete._renderItem = function(ul, item){
+				var newText = String(item.value).replace(
+					new RegExp(this.term, "gi"),
+					"<span class='ui-state-highlight'>$&</span>"
+				);
+
+				return $("<li></li>").data("ui-autocomplete-item", item)
+				.append("<div>" + newText + "</div>")
+				.appendTo(ul);
+			};
+		}
+	});
+</script>
+{% endblock js %}
