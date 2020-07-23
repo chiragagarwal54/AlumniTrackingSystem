@@ -156,3 +156,9 @@ def autocomplete(request):
             names.append(name.full_name)
         return JsonResponse(names, safe=False)
     return JsonResponse({}, safe=False)
+
+def jobsection(request):
+    context = {}
+    jobs=Job.objects.all()
+    context['jobsitem']=jobs
+    return render(request,'all-jobs.html',context)
