@@ -11,6 +11,7 @@ class DonationType(models.Model):
         max_length=100, null=True, help_text="Formal Name of the donation"
     )
     description = models.TextField(help_text="What the donation is for", default="ABC")
+    image = models.ImageField(blank=True, null=True, upload_to="donation_images/")
 
     def __str__(self):
         return self.donation_id
