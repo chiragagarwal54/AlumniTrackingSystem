@@ -1,34 +1,58 @@
-<!--
-jobsitem
--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+  .btn-primary{
+    background-color: #f37020 !important;
+  }
+</style>
+<body>
+    
 
 <div id="home_jobs" class="section">
   <div class="section_heading">
-    <p>Jobs and Internship</p>
-  <a class="view_all" href="#">view all jobs</a>
+    <p>
+      <h1>Jobs and Internship
+        </h1>
+      </p>
   </div>
-  <div class="section_content">
+  <div class="column">
     <div class="row">
-      {% for each in jobsitem %}
-      <div class="column small-12 large-6">
-        <p class="job_main">
-          <a href="#">
-            <span class="title">{{each.title}}</span>
-            <span> | </span>
-            <span class="organisation">{{each.organisation}}</span>
-          </a>
-        </p>
-        <p>
-          <b>Location: {{each.location}}</b>
-        </p>
-        <p>
-          <b>Salary: {{each.salary}}</b>
-        </p>
-        <div class="btn action" data-url="#">
-          <span>Apply</span>
-        </div>
-      </div>
-      {% endfor %}
+        {% for each in jobsitem %}
+        <div class="col-sm-6">
+            
+            <div class="card">
+              <div class="card-body">
+                
+                  <a href="#">
+                <h5 class="card-title">{{each.title}}</h5>
+                <span class="organisation">{{each.organisation}}</span>
+              </a>
+                <p class="card-text">
+                  <p>
+                  <b>Location: {{each.location}}</b>
+                  </p>
+                  <p>
+                    <b>Salary: {{each.salary}}</b>
+                  </p>
+                </p>
+                <a href="#" class="btn btn-primary">APPLY</a>
+               
+              </div>
+            </div>
+            
+          </div>  
+          {% endfor %}    
     </div>
-  </div>
+    <a class="view_all" href="{% url 'base:jobsection' %}">view all jobs</a>
+  </div>    
 </div>
+
+</body>
+</html>
