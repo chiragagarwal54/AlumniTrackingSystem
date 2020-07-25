@@ -38,6 +38,22 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def start_date_date(self):
+        return self.start_date.strftime('%d')
+
+    @property
+    def start_date_month(self):
+        return self.start_date.strftime('%b')
+
+    @property
+    def start_date_year(self):
+        return self.start_date.strftime('%Y')
+
+    @property
+    def start_date_day(self):
+        return self.start_date.strftime('%A')
+
 class News(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
@@ -47,6 +63,22 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def date_time_date(self):
+        return self.date_time.strftime('%d')
+
+    @property
+    def date_time_month(self):
+        return self.date_time.strftime('%b')
+
+    @property
+    def date_time_year(self):
+        return self.date_time.strftime('%Y')
+
+    @property
+    def date_time_year(self):
+        return self.date_time.strftime('%A')
 
 class Notice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

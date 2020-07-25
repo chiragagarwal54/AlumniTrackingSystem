@@ -37,16 +37,21 @@ def home(request):
         context["eventsitem"] = events
     else:
         context["eventsitem"] = events[0:3]
+    context["lastevent"] = events.last()
+
     news = News.objects.all().order_by("-date_time")
     if news.count() < 3:
         context["newsitem"] = news
     else:
         context["newsitem"] = news[0:3]
+    context["lastnews"] = news.last()
+
     jobs = Job.objects.all().order_by("-date_created")
     if jobs.count() < 2:
         context["jobsitem"] = jobs
     else:
         context["jobsitem"] = jobs[0:2]
+    context["lastjob"] = jobs.first()
 
     story = Story.objects.all().order_by("-date_time")
     if story.count() > 0:

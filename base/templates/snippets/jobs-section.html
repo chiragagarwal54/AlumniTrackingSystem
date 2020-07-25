@@ -1,57 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
 <style>
   .btn-primary{
     background-color: #f37020 !important;
   }
+  #home-jobs{
+    box-shadow: 0 0 3px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 1px rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+    margin-top: 20px;
+  }
+  .card_header>h1{
+    display: inline-block;
+    padding-left: 25px;
+  }
+  .card_header>span{
+    margin-left: 450px;
+  }
+  .card-body{
+    border-left: 2px;
+    padding-bottom: 10px;
+  }
+  #home-jobs > div.card-body > div.col-sm-6.lastjob{
+    border-left: 2px solid #086490;
+    padding-left: 40px;
+  }
+
+  #home-jobs > div.section-heading{
+    padding-left: 25px;
+    border-bottom: 1px solid #f2f2f2;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    padding-right: 25px;
+  }
+
+  #home-jobs > div.section-heading > h5{
+    color: #333;
+    float: left;
+    display: inline;
+    font-size: 1.8rem;
+  }
+  #home-jobs > div.section-heading > a > p{
+    float: right;
+  }
 </style>
 <body>
-    
 
-<div id="home_jobs" class="section">
-  <div class="section_heading">
-    <p>
-      <h1>Jobs and Internship
-        </h1>
-      </p>
+
+<div id="home-jobs" class="card">
+  <div class="section-heading">
+    <h5><b>JOBS AND INTERNSHIP</b></h5>
+    <a class="view_all" href="{% url 'base:jobsection' %}"><p>View all Jobs</p></a>
   </div>
-  <div class="column">
-    <div class="row">
-        {% for each in jobsitem %}
-        <div class="col-sm-6">
-            
-            <div class="card">
-              <div class="card-body">
-                
-                  <a href="#">
-                <h5 class="card-title">{{each.title}}</h5>
-                <span class="organisation">{{each.organisation}}</span>
-              </a>
-                <p class="card-text">
-                  <p>
-                  <b>Location: {{each.location}}</b>
-                  </p>
-                  <p>
-                    <b>Salary: {{each.salary}}</b>
-                  </p>
-                </p>
-                <a href="#" class="btn btn-primary">APPLY</a>
-               
-              </div>
-            </div>
-            
-          </div>  
-          {% endfor %}    
-    </div>
-    <a class="view_all" href="{% url 'base:jobsection' %}">view all jobs</a>
-  </div>    
+  <div class="card-body">
+    {% for each in jobsitem %}
+      {% if each != lastjob %}
+      <div class="col-sm-6 lastjob">
+      {% else %}
+      <div class="col-sm-6">
+      {% endif %}
+        <div class="section">
+          <a href="#">
+            <p class="title">{{each.title}} | <i>{{each.organisation}}</i></p>
+          </a>
+          <p><b>Location:</b> {{each.location}}</p>
+          <p><b>Salary:</b> {{each.salary}}</p>
+          <a href="#" class="btn btn-primary">APPLY</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 
 </body>
