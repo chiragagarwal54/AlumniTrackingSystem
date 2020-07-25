@@ -3,9 +3,12 @@
 
 {% block content %}
 
+{% if error %}
+<script>M.toast({ html: '{{ error }}', classes: 'rounded' })</script>
+{% endif %}
 <div class="row center-cols center-align container">
     {% for donation in donations %}
-    <div class="col s12">
+    <div class="col s14 cards-container">
         <div class="card hoverable small card-small sticky-action">
             <div class="card-image waves-effect waves-block waves-light">
                 <img class="activator" src="{{ donation.image.url }}">
@@ -14,8 +17,9 @@
                 <span class="card-title activator grey-text text-darken-4">{{ donation.donation_name }}<i
                         class="material-icons right">more_vert</i></span>
             </div>
-            <div class="card-action">
-                <a href="{% url 'donate main' dono_id=donation.donation_id %}">Donate Now</a>
+            <div class="card-action donate">
+                <a href="{% url 'donate main' dono_id=donation.donation_id %}" style="text-decoration: none;">Donate
+                    Now</a>
             </div>
             <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">{{ donation.donation_name }}<i
@@ -27,12 +31,17 @@
     {% endfor %}
 </div>
 
+
 {% endblock %}
 
 {% block js %}
 <style>
     .card-small {
         width: 400px;
+    }
+
+    .donate {
+        font-size: 17px !important;
     }
 </style>
 {% endblock %}

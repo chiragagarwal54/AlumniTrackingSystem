@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 from django.conf import settings
 import stripe
 from payments.models import DonationType, DonationAmount
+import datetime
 
 # Create your views here.
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -62,13 +63,23 @@ def success_view(request):
             request.GET.get("success_id"), limit=5
         )
         context = {
-            'amount_total' : transaction.data[0].amount_subtotal,
-            'currency' : transaction.data[0].currency
+            'amount_total' : int(transaction.data[0].amount_subtotal)/100,
+            'currency' : transaction.data[0].currency.upper(),
+            'transaction_id' : request.GET['success_id'],
+            'date_val' : datetime.datetime.now()
         }
         return render(request, "payments/success.html", context)
     except:
-        return render(request, "payments/error.html")
-
+        context = {
+            'error' : 'An Error occured! Please try again or contact the admin',
+            'donations' : DonationType.objects.all()
+        }
+        return render(request, "payments/home.html", context)
 
 def cancelled_view(request):
-    return render(request, "payments/cancelled.html")
+    donations = DonationType.objects.all()
+    context ={
+        'error' : 'You cancelled the transaction but please do consider donating!',
+        'donations' : donations
+    }
+    return render(request, "payments/home.html", context)
