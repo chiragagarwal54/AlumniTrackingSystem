@@ -1,27 +1,47 @@
+{% extends 'payments/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Home Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-</head>
+{% block content %}
 
-<body>
-    <section class="section">
-        {% for donation in donations %}
-        <div class="container">
-            <p>{{ donation.donation_name }}</p>
-            <p>{{ donation.description }}</p>
-            <button class="button is-primary" id="{{ donation.donation_id }}"><a
-                    href="{% url 'donate main' dono_id=donation.donation_id %}" style="text-decoration: none;">{{ donation.donation_name }}</a></button>
+{% if error %}
+<script>M.toast({ html: '{{ error }}', classes: 'rounded' })</script>
+{% endif %}
+<div class="row center-cols center-align container">
+    {% for donation in donations %}
+    <div class="col s14 cards-container">
+        <div class="card hoverable small card-small sticky-action">
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="{{ donation.image.url }}">
+            </div>
+            <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">{{ donation.donation_name }}<i
+                        class="material-icons right">more_vert</i></span>
+            </div>
+            <div class="card-action donate">
+                <a href="{% url 'donate main' dono_id=donation.donation_id %}" style="text-decoration: none;">Donate
+                    Now</a>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">{{ donation.donation_name }}<i
+                        class="material-icons right">close</i></span>
+                <p>{{ donation.description }}</p>
+            </div>
         </div>
-        <br />
-        {% endfor %}
-    </section>
-</body>
+    </div>
+    {% endfor %}
+</div>
 
-</html>
+
+{% endblock %}
+
+{% block js %}
+<style>
+    .card-small {
+        width: 400px;
+    }
+
+    .donate {
+        font-size: 17px !important;
+    }
+</style>
+{% endblock %}
