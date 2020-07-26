@@ -15,6 +15,7 @@ class AlumniSignUpForm(UserCreationForm):
     college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
     unique_id = forms.CharField(max_length=200)
     email = forms.EmailField()
+    image = forms.ImageField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -28,6 +29,7 @@ class AlumniSignUpForm(UserCreationForm):
         user.full_name = self.cleaned_data['first_name'] + " " + self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
         user.college = College.objects.get(name=self.cleaned_data['college'])
+        user.profile_photo = self.cleaned_data['image']
         user.save()
         unique_id = self.cleaned_data['unique_id']
         first_name = self.cleaned_data['first_name']
