@@ -8,7 +8,7 @@
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
 
 
-<form id="regForm" method="post" novalidate>{% csrf_token %}
+<form id="regForm" method="POST" enctype="multipart/form-data" novalidate>{% csrf_token %}
   <h1>Sign Up as {{user_type}}</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">
@@ -68,6 +68,9 @@
     </p>
     <p>Email ID
       {{form.email}}
+    </p>
+    <p>Profile Photo
+      {{ form.image }}
     </p>
     <button type="submit" class="btn btn-success">Sign up</button>
 

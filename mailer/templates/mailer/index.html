@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mailer | An E-mail client</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'chat/css/materialize.css' %}">
     <style>
         .compose {
             display: inline;
@@ -35,49 +38,78 @@
             display: inline;
             font-size: 1.5em;
         }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid back">
-        <a class="btn-floating btn-large waves-effect waves-light blue" href="{% url 'admin:index' %}"><i
-                class="material-icons">arrow_back</i></a>
-        <p class="back-text">Go back to Admin</p>
-    </div>
-    <div class="container">
-        {% if not check %}
-        <div class="conatiner-fluid card-panel blue">
-            <h6>E-mail client is not configured properly. Contact Admin.</h6>
+    {% include 'mailer/navbar.html' %}
+    <main>
+        <div class="container-fluid back">
+            <a class="btn-floating btn-large waves-effect waves-light blue" href="{% url 'admin:index' %}"><i
+                    class="material-icons">arrow_back</i></a>
+            <p class="back-text">Go back to Admin</p>
         </div>
-        {% endif %}
-        <h2>Mailer</h2>
-        <div class="container-fluid">
-            <a class="btn-floating btn-large waves-effect waves-light blue" href="{{ '/mail/send/' }}"><i
-                    class="material-icons">add</i></a>
-            <p class="compose">Compose new</p>
-        </div>
-        <div class="container-fluid history">
-            <h4>History</h4>
-            {% if history %}
-            <ul class="alert alert-info messages">
-                {% for h in history %}
-                <li class="">
-                    <div class="conatiner-fluid z-depth-1 card-panel log grey lighten-5">
-                        <h6>{{ h.to }}</h6>
-                        <p>
-                            <strong>[{{ h.subject }}]</strong>
-                            {{ h.body | truncatechars:80 }}
-                            <small> -- sent at {{ h.time }} by {{ h.sent_by }}</small>
-                        </p>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="container">
+            {% if not check %}
+            <div class="conatiner-fluid card-panel blue">
+                <h6>E-mail client is not configured properly. Contact Admin.</h6>
+            </div>
             {% endif %}
+            <h2>Mailer</h2>
+            <div class="container-fluid">
+                <a class="btn-floating btn-large waves-effect waves-light blue" href="{{ '/mail/send/' }}"><i
+                        class="material-icons">add</i></a>
+                <p class="compose">Compose new</p>
+            </div>
+            <div class="container-fluid history">
+                <h4>History</h4>
+                {% if history %}
+                <ul class="alert alert-info messages">
+                    {% for h in history %}
+                    <li class="">
+                        <div class="conatiner-fluid z-depth-1 card-panel log grey lighten-5">
+                            <h6>{{ h.to }}</h6>
+                            <p>
+                                <strong>[{{ h.subject }}]</strong>
+                                {{ h.body | truncatechars:80 }}
+                                <small> -- sent at {{ h.time }} by {{ h.sent_by }}</small>
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    </main>
+    {% include 'mailer/footer.html' %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+<script src="{% static 'chat/js/materialize.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('.materialboxed').materialbox();
+    });
+    $(function () {
+        $('.sidenav').sidenav({
+            edge: 'right',
+        });
+    });
+
+    function dest(d) {
+        let hash = CryptoJS.MD5(d).toString();
+        window.location.href = "/chat/" + hash;
+    }
+</script>
 
 </html>
