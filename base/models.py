@@ -22,6 +22,13 @@ def upload_notice_image_location(instance, filename):
     )
     return file_path
 
+def upload_gallery_image_location(instance, filename):
+    file_path = 'gallery/{gallery_id}/{filename}'.format(
+        notice_id=str(instance.id),
+        filename=filename
+    )
+    return file_path
+
 
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -98,6 +105,14 @@ class Story(models.Model):
 
     def __str__(self):
         return self.title
+
+class Gallery(models.Model):
+    img = models.ImageField(upload_to=upload_gallery_image_location)
+    date_time = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.img.name
 
 
 @receiver(post_delete, sender=Event)

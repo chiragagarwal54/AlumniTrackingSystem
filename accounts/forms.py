@@ -5,6 +5,7 @@ from django.db import transaction
 import datetime
 from college.models import College, Department
 from accounts.models import Alumni, Faculty, User
+from PIL import Image
 
 def year_choices():
     return [(r,r) for r in range(1947, datetime.date.today().year+1)]
@@ -15,6 +16,7 @@ class AlumniSignUpForm(UserCreationForm):
     college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
     unique_id = forms.CharField(max_length=200)
     email = forms.EmailField()
+    img = forms.ImageField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -28,6 +30,7 @@ class AlumniSignUpForm(UserCreationForm):
         user.full_name = self.cleaned_data['first_name'] + " " + self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
         user.college = College.objects.get(name=self.cleaned_data['college'])
+        user.profile_photo = self.cleaned_data['img']
         user.save()
         unique_id = self.cleaned_data['unique_id']
         first_name = self.cleaned_data['first_name']
@@ -46,6 +49,7 @@ class FacultySignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=100)
     college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
     email = forms.EmailField()
+#    image = forms.ImageField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -58,6 +62,7 @@ class FacultySignUpForm(UserCreationForm):
         user.last_name = self.cleaned_data['last_name']
         user.email_address = self.cleaned_data['email']
         user.college = College.objects.get(name=self.cleaned_data['college'])
+#        user.profile_photo = self.cleaned_data['image']
         user.save()
         system_date_joined = datetime.datetime.now()
 

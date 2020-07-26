@@ -1,22 +1,72 @@
-<!--
-storyitem
--->
+<style>
+  #home-right-col > div{
+    padding-top: 20px;
+  }
+
+  #home-right-col > div > div > div.section-heading > p{
+    padding-top: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+
+  #home-right-col > div > div > div.section-content > div.story-details > a > p.story-title{
+    padding-top: 10px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  #home-right-col > div > div > div.section-content > div.story-details > a > p.separator{
+    text-align: center;
+    padding-top: 8px;
+    margin-bottom: 0;
+    border-bottom: 2px solid #086490;
+    box-sizing: border-box;
+    width: 30%;
+    margin: 0.5rem auto 0;
+  }
+
+  #home-right-col > div > div > div.section-content > div.story-details > a > p.story-author{
+    text-align: center;
+    color: black;
+    font-style: italic;
+  }
+
+  #home-right-col > div > div > div.section-content > div.story-details > a > p.story-body{
+    text-align: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    color: black;
+    font-style: italic;
+  }
+
+  #home-right-col > div > div > div.section-content > a > p{
+    text-align: center;
+  }
+</style>
+
 {% if storyitem %}
   <div id="home-right-col" class="column small-12 large-3 large-push-9">
-    <div class="home_story" class="section">
-      <div class="section_heading">
-        <p>Story</p>
-      </div>
-      <div class="section_content">
-        <div class="story_details">
-          <p class="story_title">{{storyitem.title}}</p>
-          <p class="story_author">{{storyitem.user.first_name}} {{storyitem.user.last_name}}</p>
-          <p class="separator"></p>
-          <div class="content">
-            <p>{{storyitem.body}}</p>
-          </div>
+    <div class="home-story">
+      <div class="card">
+        <div class="section-heading">
+          <p><b>STORY</b></p>
         </div>
-        <a href="{% url 'base:speceficstory' storyitem.id %}">Read Full Story</a>
+        <div class="section-content">
+          <div class="story-details">
+            <a href="{% url 'base:speceficstory' storyitem.id %}">
+              <p class="story-title">{{storyitem.title}}</p>
+              <p class="story-author">By {{storyitem.user.first_name}} {{storyitem.user.last_name}}</p>
+              <p class="separator"></p>
+              <p class="story-body">{{storyitem.body}}</p>
+            </a>
+          </div>
+          <a href="{% url 'base:speceficstory' storyitem.id %}" class="read-full"><p class="read-full">Read Full Story</p></a>
+        </div>
       </div>
     </div>
   </div>
