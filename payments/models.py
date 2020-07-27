@@ -12,6 +12,8 @@ class DonationType(models.Model):
     )
     description = models.TextField(help_text="What the donation is for", default="ABC")
     image = models.ImageField(blank=True, null=True, upload_to="donation_images/")
+    date_time = models.DateTimeField(auto_now=True)
+    days_remaining = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.donation_id
