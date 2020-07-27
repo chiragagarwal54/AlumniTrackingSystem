@@ -3,6 +3,7 @@ from django.urls import reverse
 from accounts.models import Alumni, Faculty, User
 from base.models import Event, Notice, News, Story
 from jobs.models import Job
+from payments.models import DonationType
 from django.db.models import Q
 import datetime
 from django.http import JsonResponse
@@ -56,6 +57,12 @@ def home(request):
     story = Story.objects.all().order_by("-date_time")
     if story.count() > 0:
         context["storyitem"] = story[0]
+
+    donation = DonationType.objects.all().order_by("-date_time")
+    if donation.count() > 1:
+        context["donation"] = donation[0:2]
+    else:
+        context["donation"] = donation
 
     return render(request, "home.html", context)
 
