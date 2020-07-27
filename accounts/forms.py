@@ -60,7 +60,8 @@ class FacultySignUpForm(UserCreationForm):
         user.is_faculty = True
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.email_address = self.cleaned_data['email']
+        user.email = self.cleaned_data['email']
+        user.full_name = self.cleaned_data['first_name'] + " " + self.cleaned_data['last_name']
         user.college = College.objects.get(name=self.cleaned_data['college'])
         user.profile_photo = self.cleaned_data['image']
         user.save()
