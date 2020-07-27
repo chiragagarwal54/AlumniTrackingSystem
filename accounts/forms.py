@@ -49,7 +49,7 @@ class FacultySignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=100)
     college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
     email = forms.EmailField()
-#    image = forms.ImageField()
+    image = forms.ImageField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -60,9 +60,10 @@ class FacultySignUpForm(UserCreationForm):
         user.is_faculty = True
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.email_address = self.cleaned_data['email']
+        user.email = self.cleaned_data['email']
+        user.full_name = self.cleaned_data['first_name'] + " " + self.cleaned_data['last_name']
         user.college = College.objects.get(name=self.cleaned_data['college'])
-#        user.profile_photo = self.cleaned_data['image']
+        user.profile_photo = self.cleaned_data['image']
         user.save()
         system_date_joined = datetime.datetime.now()
 

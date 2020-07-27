@@ -52,9 +52,6 @@
     <p>Last Name
       {{form.last_name}}
     </p>
-    <p>Profile Photo
-      {{form.img}}
-    </p>
   </div>
 
   <div class="tab">
@@ -63,16 +60,18 @@
     </p>
   </div>
   <div class="tab">
+    {% if form.unique_id %}
     <p>Unique ID
       {{form.unique_id}}
     </p>
+    {% endif %}
     <p>Email ID
       {{form.email}}
     </p>
     <p>Profile Photo
       {{ form.image }}
     </p>
-    <button type="submit" class="btn btn-success">Sign up</button>
+    <button type="submit">Sign up</button>
 
   </div>
   <div style="overflow:auto;">
