@@ -14,6 +14,12 @@ def upload_event_image_location(instance, filename):
     )
     return file_path
 
+def upload_news_image_location(instance, filename):
+    file_path = 'news/{news_id}/{filename}'.format(
+        news_id=str(instance.id),
+        filename=filename
+    )
+    return file_path
 
 def upload_notice_image_location(instance, filename):
     file_path = 'notice/{notice_id}/{filename}'.format(
@@ -39,7 +45,7 @@ class Event(models.Model):
     end_time = models.TimeField(default=localtime)
     venue = models.CharField(max_length=300)
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
-    body = models.CharField(max_length=1000)
+    body = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True, default="unique")
 
     def __str__(self):
@@ -65,7 +71,8 @@ class News(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     date_time = models.DateTimeField(auto_now=True)
-    body = models.CharField(max_length=1000)
+    body = models.TextField()
+    image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, default="")
 
     def __str__(self):
@@ -84,7 +91,7 @@ class News(models.Model):
         return self.date_time.strftime('%Y')
 
     @property
-    def date_time_year(self):
+    def date_time_day(self):
         return self.date_time.strftime('%A')
 
 class Notice(models.Model):
