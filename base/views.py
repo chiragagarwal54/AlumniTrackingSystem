@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from accounts.models import Alumni, Faculty, User
-from base.models import Event, Notice, News, Story
+from base.models import Event, Notice, News, Story, Gallery
 from jobs.models import Job
 from payments.models import DonationType
 from django.db.models import Q
@@ -63,6 +63,9 @@ def home(request):
         context["donation"] = donation[0:2]
     else:
         context["donation"] = donation
+
+    galleryimgs = Gallery.objects.all().order_by("-date_time");
+    context['gallery'] = galleryimgs[0:6]
 
     return render(request, "home.html", context)
 

@@ -3,7 +3,6 @@
 {% block content %}
 {% load static %}
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
-</style>
 <div class="container">
     <div class="card">
         <div class="card-header">
@@ -19,14 +18,14 @@
                   {% if field.help_text %}
                     <small style="color: grey;">{{field.help_text}}</small>
                   {% endif %}
-            
+
                 </p>
               {% endfor %}
                 <button value="submit">Submit</button>
             </form>
         </div>
     </div>
-   
+
 </div>
 
 
