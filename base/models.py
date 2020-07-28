@@ -30,7 +30,7 @@ def upload_notice_image_location(instance, filename):
 
 def upload_gallery_image_location(instance, filename):
     file_path = 'gallery/{gallery_id}/{filename}'.format(
-        notice_id=str(instance.id),
+        gallery_id=str(instance.id),
         filename=filename
     )
     return file_path

@@ -2,13 +2,59 @@
 
 {% block content %}
 
-{% if event.image %}
-  <img src="{{event.image.url}}">
-{% endif %}
-<h2>{{event.title}}</h2>
-<h4>{{event.start_date}}</h4>
-<p>{{event.start_time}}</p>
-<p>Venue: {{event.venue}}</p>
-<p>{{event.body}}</p>
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    background-color:lightgrey;
+    border-radius: 30px;
+  }
+  
+
+  .custom{
+    background-color: #f1f1f1;
+    width: auto;
+    margin: 10px;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 10px;
+  }
+
+  .responsive {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  max-width: 600px;
+  border-radius: 30px;
+  align-self: center;
+  padding: 5px;
+}
+  </style>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="flex-container">
+        {% if event.image %}
+        <img class="responsive" src="{{event.image.url}}" alt="image cap">
+        {% endif %}
+        <div class="custom">
+          {{event.title}}
+        </div>
+        <div class="custom">
+          On:  {{event.start_date}}
+          @{{event.start_time}}
+        </div>
+        <div class="custom">
+          Venue: {{event.venue}}
+        </div>
+        <div class="custom">
+          {{event.body}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock content %}

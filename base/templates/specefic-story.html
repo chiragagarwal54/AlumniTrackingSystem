@@ -2,10 +2,63 @@
 
 {% block content %}
 
-<h2>{{story.title}}</h2>
+<style>
+    .flex-container {
+      display: flex;
+      flex-direction: column;
+      background-color:lightgrey;
+      border-radius: 30px;
+    }
+    
+  
+    .custom{
+      background-color: #f1f1f1;
+      width: auto;
+      margin: 10px;
+      text-align: center;
+      font-size: 30px;
+      border-radius: 10px;
+    }
+  
+    .responsive {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    max-width: 600px;
+    border-radius: 30px;
+    align-self: center;
+    padding: 5px;
+  }
+    </style>
+  
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="flex-container">
+          <div class="custom">
+            <b>{{story.title}}</b>
+          </div>
+          <div class="custom">
+            By  {{story.user.first_name}} {{story.user.last_name}}
+          </div>
+          <div class="custom">
+            Written on {{story.date_time}}
+          </div>
+          <br>
+          <div class="custom">
+            {{story.body}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+
+<!-- <h2>{{story.title}}</h2>
 <p>By {{story.user.first_name}} {{story.user.last_name}}</p>
 <p>Written on {{story.date_time}}</p>
 <br><br>
-<p>{{story.body}}</p>
-
-{% endblock content %}
+<p>{{story.body}}</p> -->
