@@ -26,6 +26,7 @@ class Alumni(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     year_of_passing = models.IntegerField(null=True)
     unique_id = models.CharField(unique=True, max_length=200)
+    profile_verified = models.BooleanField(default=0)
 
     def __str__(self):
         return (
