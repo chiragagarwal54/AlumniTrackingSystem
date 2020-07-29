@@ -2,7 +2,6 @@
 
 {% load static %}
 <link href="{% static 'base/css/profilepage.css' %}" rel="stylesheet">
-</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 {% block content %}
@@ -81,6 +80,12 @@
 
                             {% if editprofile %}
                               <a href="{% url 'accounts:update_alumni_profile' %}"><i>Edit Profile</i></a>
+                            {% endif %}
+
+                            {% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
+                            <form method="post">{% csrf_token %}
+                              <button type="submit">Approve verification</button>
+                            </form>
                             {% endif %}
                             </div>
                       </div>

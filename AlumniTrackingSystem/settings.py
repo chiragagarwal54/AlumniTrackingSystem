@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'jobs',
     'payments',
     'mailer',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

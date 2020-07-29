@@ -1,47 +1,173 @@
 {% extends 'base.html' %}
-
+{% load widget_tweaks %}
+<head>
+	<link href="//cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css" rel="stylesheet" id="bootstrap-css">
+	<script src=""></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
 {% block content %}
 
-<form class="form-inline my-5 my-lg-0 pl-4" method="get">
-	<div class="search__wrapper">
-		<input type="text" name="q" id="id_q" placeholder="Search Alumni" class="search__field">
-		<button type="submit" class="fa fa-search search__icon"></button>
-		<ul id="results"></ul>
+<style>
+	.well{
+		width: 95%;
+		margin: auto;
+		margin-top: 50px;
+		margin-bottom: 20px;
+		padding-right: 0;
+		box-shadow: 0 0 3px rgba(0,0,0,0.15),-1px 0 0 rgba(0,0,0,0.03),1px 0 1px rgba(0,0,0,0.03),0 1px 0 rgba(0,0,0,0.12);
+		background: #f5f5f5
+	}
+	.well > div.section-heading > p{
+		text-align: center;
+		font-size: 2.5rem;
+		border-bottom: 5px solid white;
+		padding-top: 25px;
+    padding-bottom: 25px;
+		font-family: Garamond;
+	}
+	.well > div.row > div.form-group.col-sm-4.col-md-3{
+		border: 2px solid white;
+		margin-left: 20px;
+		margin-right: 20px;
+		margin-top: 10px;
+		padding-bottom: 10px;
+	}
+	.well > div.row > div.form-group.col-sm-4.col-md-3 > p.label > label{
+		font-size: 1.5rem;
+		color: black;
+		font-family: Garamond;
+		padding-top: 5px;
+	}
+	.well > button{
+		margin-left: 30px;
+		margin-bottom: 30px;
+	}
+	.well > div.row > div.form-group.col-sm-4.col-md-3 > input{
+		background: white;
+		border: 1px solid black;
+	}
+
+
+
+.profile_conteiner{
+	height:500px;
+	width:95%;
+	box-shadow: 0px 6px 10px -6px;
+	border-radius:10px;
+	margin:auto;
+	margin-top:60px;
+	margin-bottom:60px;
+	overflow:hidden;
+}
+.image_conteiner{
+	height:150px;
+	background:purple;
+}
+.image{
+	background:tomato;
+	height:120px;
+	width:120px;
+	padding:5px;
+	border-radius:50%;
+	transform:translate(105px,90px);
+}
+.image img{
+	height:110px;
+	width:110px;
+	border-radius:50%;
+
+}
+.text_conteiner{
+	height:350px;
+	background:white;
+	padding:20px;
+	padding-top:70px;
+}
+.text_conteiner h3,h4,p{
+	text-align:center;
+}
+.title h4{
+	color:lightcoral;
+
+.btn:hover{
+	background:none;
+	color:purple;
+	border:2px solid purple;
+	border-style:double;
+	transition:1s;
+}
+.btn a{
+	text-decoration:none;
+	color:blue;
+	line-height:40px;
+	color:white;
+	display:block;
+}
+.btn a:hover{
+	color:purple;
+	transition:1s;
+	top:0;
+}
+
+</style>
+
+<form method="get">
+	<div class="well">
+		<div class="section-heading">
+			<p class="heading"><b>Search Alumni</b></p>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.full_name.label_tag }}</p>
+				{% render_field filter.form.full_name class="form-control" %}
+			</div>
+			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.first_name.label_tag }}</p>
+				{% render_field filter.form.first_name class="form-control" %}
+			</div>
+			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.last_name.label_tag }}</p>
+				{% render_field filter.form.last_name class="form-control" %}
+			</div>
+			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.college.label_tag }}</p>
+				{% render_field filter.form.college class="form-control" %}
+			</div>
+			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.department.label_tag }}</p>
+				{% render_field filter.form.department class="form-control" %}
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"></span> Search
+		</button>
 	</div>
 </form>
 
-{{len}}
-
-{% for each in users %}
-  <div>
-    <a href="{% url 'base:profile' each.first_name each.id %}"><p>{{each.first_name}} {{each.last_name}}</p></a>
-  </div>
+{% for user in filter.qs %}
+<a href="{% url 'base:profile' user.first_name user.id %}">
+	<div class="profile_conteiner col-sm-4 col-md-3">
+		<div class="image_conteiner">
+			<div class="image">
+				{% if user.profile_photo %}
+				<img src="{{user.profile_photo.url}}"/>
+				{% endif %}
+			</div>
+		</div>
+		<div class="text_conteiner">
+			<div class="title">
+				<h3>{{user.first_name}} {{user.last_name}}</h3>
+				<p>College: {{user.college.name}}</p>
+				<p>Department: {{user.department.name}}</p>
+			</div>
+			<div class="objective">
+			<p>About Me: {{user.about_me}}</p>
+			</div><br>
+		</div>
+	</div>
+</a>
+{% empty %}
+<p><b>No Results</b></p>
 {% endfor %}
 
 {% endblock content %}
-{% block js %}
-<style>
-	.ui-autocomplete{
-		z-index: 2000 !important;
-	}
-</style>
-<script>
-	$( function(){
-		var $elem = $('#id_q').autocomplete({ source: "{% url 'base:autocomplete' %}" }),
-				elemAutocomplete = $elem.data('ui-autocomplete') || $elem.data('autocomplete');
-		if(elemAutocomplete){
-			var ul = document.getElementById("results");
-			elemAutocomplete._renderItem = function(ul, item){
-				var newText = String(item.value).replace(
-					new RegExp(this.term, "gi"),
-					"<span class='ui-state-highlight'>$&</span>"
-				);
-
-				return $("<li></li>").data("ui-autocomplete-item", item)
-				.append("<div>" + newText + "</div>")
-				.appendTo(ul);
-			};
-		}
-	});
-</script>
-{% endblock js %}

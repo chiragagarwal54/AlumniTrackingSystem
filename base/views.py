@@ -7,6 +7,7 @@ from payments.models import DonationType
 from django.db.models import Q
 import datetime
 from django.http import JsonResponse
+from .filters import UserFilter
 
 
 def base(request):
@@ -143,16 +144,9 @@ def profile(request, user_name, user_id):
 
 def searchalumni(request):
     context = {}
-    query = ""
-
-    if request.GET:
-        query = request.GET["q"]
-
-    context = get_queryset(str(query))
-    context["query"] = str(query)
-
-    return render(request, "search_alumni.html", context)
-
+    user_list = User.objects.filter(is_alumni=1)
+    user_filter = UserFilter(request.GET, queryset=user_list)
+    return render(request, 'search_alumni.html', {'filter': user_filter})
 
 def get_queryset(query=None):
     queryset = {}
