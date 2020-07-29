@@ -5,6 +5,7 @@ from college.models import College, Department
 
 
 class User(AbstractUser):
+    is_verified = models.BooleanField(default=False)
     is_alumni = models.BooleanField(default=False)
     is_faculty = models.BooleanField(default=False)
     profile_photo = models.ImageField(upload_to="profile_pics/", blank=True, null=True)

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'jobs',
     'payments',
     'mailer',
+    'django_email_verification'
 ]
 
 MIDDLEWARE = [
@@ -172,9 +173,19 @@ LOGIN_URL = '/'
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
+EMAIL_ACTIVE_FIELD = "is_verified"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_SERVER = EMAIL_HOST
 EMAIL_USE_TLS = True
 EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default=None)
+EMAIL_ADDRESS = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default=None)
+EMAIL_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_FROM_ADDRESS = '<no-reply>@ats.org'
+EMAIL_MAIL_SUBJECT = 'Confirm your Email'
+EMAIL_MAIL_HTML = os.path.join(os.path.join(os.path.join(BASE_DIR, 'accounts'), 'templates'),'mail_body.html')
+EMAIL_MAIL_PLAIN = os.path.join(os.path.join(os.path.join(BASE_DIR, 'accounts'), 'templates'),'mail_body.txt')
+EMAIL_PAGE_TEMPLATE = EMAIL_MAIL_PLAIN = os.path.join(os.path.join(os.path.join(BASE_DIR, 'accounts'), 'templates'),'confirm_template.html')
+EMAIL_PAGE_DOMAIN = 'http://localhost:8000/'
