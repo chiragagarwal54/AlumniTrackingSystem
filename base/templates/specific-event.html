@@ -6,12 +6,12 @@
   .flex-container {
     display: flex;
     flex-direction: column;
-    background-color:lightgrey;
+    background-color: lightgrey;
     border-radius: 30px;
   }
-  
 
-  .custom{
+
+  .custom {
     background-color: #f1f1f1;
     width: auto;
     margin: 10px;
@@ -21,15 +21,15 @@
   }
 
   .responsive {
-  width: 100%;
-  height: auto;
-  max-height: 600px;
-  max-width: 600px;
-  border-radius: 30px;
-  align-self: center;
-  padding: 5px;
-}
-  </style>
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    max-width: 600px;
+    border-radius: 30px;
+    align-self: center;
+    padding: 5px;
+  }
+</style>
 
 
 <div class="container">
@@ -43,7 +43,7 @@
           {{event.title}}
         </div>
         <div class="custom">
-          On:  {{event.start_date}}
+          On: {{event.start_date}}
           @{{event.start_time}}
         </div>
         <div class="custom">
@@ -56,5 +56,26 @@
     </div>
   </div>
 </div>
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+  var disqus_config = function() {
+    this.page.url = 'http://127.0.0.1:8000/event/{{event.id}}/'; // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = '/event/{{event.id}}/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://ats-2.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 {% endblock content %}
