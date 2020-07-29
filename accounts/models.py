@@ -22,12 +22,19 @@ class User(AbstractUser):
     system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
     email = models.EmailField(null=True, unique=True)
 
+class Position(models.Model):
+    position_name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.position_name
+
 
 class Alumni(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     year_of_passing = models.IntegerField(null=True)
     unique_id = models.CharField(unique=True, max_length=200)
     profile_verified = models.BooleanField(default=0)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return (
