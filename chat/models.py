@@ -24,11 +24,8 @@ class Messages(models.Model):
         tup = tuple([self.parent_user, self.message_text])
         return str(tup)
 
-    def last_10_messages(roomName, times=0):
+    def last_messages(roomName, times=0):
         group = Group.objects.get_or_create(group_id=roomName, group_name="CHANNEL")[0]
-        if not times:
-            return list(Messages.objects.filter(group=group).order_by("date_posted"))[-30:]
-        return list(Messages.objects.filter(group=group).order_by("date_posted"))[
-            (-30 * (times + 1)) : (-30 * times)
-        ]
+        return list(Messages.objects.filter(group=group).order_by("date_posted"))
+
 

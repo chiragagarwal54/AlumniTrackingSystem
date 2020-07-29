@@ -33,25 +33,10 @@ chatSocket.onmessage = function (e) {
     var data = JSON.parse(e.data);
     console.log(data);
     if (data['command'] === 'messages') {
-
-        var ChatLog = document.querySelector('#chat-log');
-        var elements = ChatLog.getElementsByTagName('li');
-        while (elements[0]) {
-            elements[0].parentNode.removeChild(elements[0]);
-        }
-
         for (let i = 0; i < data['messages'].length; i++) {
             createMessage(data['messages'][i]);
         }
-        if (old_msg_page_count == 0) {
-            scroll();
-        }
-
-    } else if (data['message']['command'] === 'new_message') {
-        if (old_msg_page_count != 0) {
-            old_msg_page_count = 0;
-            fetchMessages(true);
-        }
+    } else if (data['command'] === 'new_message') {
         createMessage(data['message']['message']);
         scroll();
     }
@@ -82,10 +67,7 @@ document.querySelector('#chat-message-submit').onclick = function (e) {
 };
 
 function fetchMessages(recent) {
-    if (recent) {
-        chatSocket.send(JSON.stringify({ 'command': 'fetch_messages', 'roomName': roomName }));
-    }
-    chatSocket.send(JSON.stringify({ 'command': 'fetch_old_messages', 'roomName': roomName }));
+    chatSocket.send(JSON.stringify({ 'command': 'fetch_messages', 'roomName': roomName }));
 }
 
 function convertToMonth(index) {
