@@ -12,6 +12,7 @@ from base.views import(
     speceficstory,
     autocomplete,
     jobsection,
+    verification_alumni,
 )
 
 app_name='base'
@@ -26,5 +27,6 @@ urlpatterns = [
     path('events', allevents, name="allevents"),
     path('searchalumni', searchalumni, name="searchalumni"),
     path('autocomplete', autocomplete, name="autocomplete"),
-    path('jobsection',jobsection,name="jobsection"),
+    path('jobsection', jobsection,name="jobsection"),
+    path('verifialumni', verification_alumni, name="verification_alumni"),
 ]

@@ -116,6 +116,12 @@ def speceficstory(request, story_id):
 
 def profile(request, user_name, user_id):
     context = {}
+    if request.POST:
+        alumni = Alumni.objects.get(user_id=user_id)
+        alumni.profile_verified = 1
+        alumni.save()
+        return redirect('base:verification_alumni')
+
     user = User.objects.get(id=user_id)
     if user.is_alumni:
         alumni = Alumni.objects.get(user=user)
@@ -178,3 +184,11 @@ def jobsection(request):
     jobs=Job.objects.all()
     context['jobsitem']=jobs
     return render(request,'all-jobs.html',context)
+
+def verification_alumni(request):
+    context = {}
+    account = Alumni.objects.filter(profile_verified=0)
+    if account.count()<1:
+        context["number"] = 1
+    context["account"] = account
+    return render(request, 'verification-request-list.html', context)

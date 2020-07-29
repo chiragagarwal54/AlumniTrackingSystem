@@ -1,9 +1,100 @@
 {% extends 'base.html' %}
 
 {% load static %}
-      {% block content %}
+<link href="{% static 'base/css/profilepage.css' %}" rel="stylesheet">
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+{% block content %}
 
-  <div class="container-fluid">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+  <div class="container">
+                    <div id="work-collections">
+                        <div class="row">
+                               <div class="col s12 m4 l8">
+
+                                {% if is_alumni %}
+                                <!-- FOR ALUMNI -->
+                                <div id="profile-card" class="card">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" src="http://demo.geekslabs.com/materialize/v2.1/layout03/images/user-bg.jpg" alt="user background" style="max-height: 100px;">
+                                    </div>
+                                    <div class="card-content">
+                                        <img src="{{request.user.profile_photo.url}}" alt="" class="circle responsive-img activator card-profile-image" style="max-height: 300px;">
+                                        <a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 right">
+                                            <i class="mdi-action-account-circle">i</i>
+                                        </a>
+
+                                        <span class="card-title activator grey-text text-darken-4">{{user.first_name}} {{user.last_name}}</span>
+                                        <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Alumni of {{user.college}}</p>
+                                        <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
+                                        <p><i class="mdi-communication-email cyan-text text-darken-2"></i> Batch of {{alumni.year_of_passing}}</p>
+
+                                    </div>
+                                    <div class="card-reveal">
+                                      <!-- ALUMNI ADDITIONAL INFO -->
+                                        <span class="card-title grey-text text-darken-4">{{user.first_name}} {{user.last_name}}<i class="mdi-navigation-close right"></i></span>
+                                        <p>Here is some more information about Me</p>
+                                        <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Alumni of {{user.college}}</p>
+                                        <p><i class="mdi-communication-email cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
+                                        <p><i class="mdi-social-cake cyan-text text-darken-2"></i> Batch of {{alumni.year_of_passing}}</p>
+                                        <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i>ABOUT</p>
+                                    </div>
+                                </div>
+
+                                {% elif is_faculty %}
+                                <!-- FOR FACULTY -->
+                                <div id="profile-card" class="card">
+                                  <div class="card-image waves-effect waves-block waves-light">
+                                      <img class="activator" src="http://demo.geekslabs.com/materialize/v2.1/layout03/images/user-bg.jpg" alt="user background" style="max-height: 100px;">
+                                  </div>
+                                  <div class="card-content">
+                                      <img src="{{request.user.profile_photo.url}}" alt="" class="circle responsive-img activator card-profile-image" style="max-height: 300px;">
+                                      <a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 right">
+                                          <i class="mdi-action-account-circle">i</i>
+                                      </a>
+
+                                      <span class="card-title activator grey-text text-darken-4">{{user.first_name}} {{user.last_name}}</span>
+                                      <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Faculty at {{user.college}}</p>
+                                      <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
+                                      <p><i class="mdi-communication-email cyan-text text-darken-2"></i> From {{faculty.college_joined_year}}</p>
+
+                                  </div>
+                                  <div class="card-reveal">
+                                    <!-- FACULTY ADDITIONAL INFO -->
+                                      <span class="card-title grey-text text-darken-4">{{user.first_name}} {{user.last_name}} <i class="mdi-navigation-close right"></i></span>
+                                      <p>Here is some more information about Me</p>
+                                      <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Faculty at {{user.college}}</p>
+                                      <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
+                                      <p><i class="mdi-communication-email cyan-text text-darken-2"></i> From {{faculty.college_joined_year}}</p>
+                                      <p><i class="mdi-social-cake cyan-text text-darken-2"></i> Research interest: {{faculty.research_interest}}</p>
+                                      <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> ABOUT</p>
+                                  </div>
+                              </div>
+                              {% else %}
+                              <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
+                              <p>You are SuperUser!</p>
+                            {% endif %}
+
+                            {% if editprofile %}
+                              <a href="{% url 'accounts:update_alumni_profile' %}"><i>Edit Profile</i></a>
+                            {% endif %}
+                            </div>
+                      </div>
+    </div>
+
+
+{% endblock content %}
+
+
+
+
+
+
+  <!-- <div class="container-fluid">
     <div class="row">
         <div class="col col-lg-3">
 
@@ -33,29 +124,14 @@
               {% endif %}
             </div>
           </div>
+          {% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
+          <form method="post">{% csrf_token %}
+            <button type="submit">Approve verification</button>
+          </form>
+          {% endif %}
 
         </div>
         <div class="col col-lg-2 col-md-12 col-sm-12 col-12">
 
         </div>
-      </div>
-
-
-
-  <style  type="text/css">
-    .profile-top{
-      text-align: center;
-      height: 100%;
-      padding-top: 30px;
-    }
-
-    .profilepic{
-      border-radius: 50%;
-      width: 200px;
-      height: 150px;
-    }
-    .card-text{
-      text-align: left;
-    }
-  </style>
-  {% endblock content %}
+      </div> -->
