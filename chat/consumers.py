@@ -7,25 +7,11 @@ from accounts.models import User
 
 class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
-        self.count = 0
         return super().__init__(*args, **kwargs)
 
-    def fetch_old_messages(self, data):
-        roomName = data["roomName"]
-        messages = Messages.last_10_messages(roomName, times=self.count)
-        if messages:
-            self.count += 1
-        else:
-            self.count -= 1
-            messages = Messages.last_10_messages(roomName, times=self.count)
-
-        content = {"command": "messages", "messages": self.messages_to_json(messages)}
-        self.send_message(content)
-
     def fetch_messages(self, data):
-        self.count = 0
         roomName = data["roomName"]
-        messages = Messages.last_10_messages(roomName, times=self.count)
+        messages = Messages.last_messages(roomName)
         content = {"command": "messages", "messages": self.messages_to_json(messages)}
         self.send_message(content)
 
@@ -41,7 +27,6 @@ class ChatConsumer(WebsocketConsumer):
         return self.send_chat_message(content)
 
     commands = {
-        "fetch_old_messages": fetch_old_messages,
         "fetch_messages": fetch_messages,
         "new_message": new_message,
     }
@@ -80,9 +65,8 @@ class ChatConsumer(WebsocketConsumer):
         self.commands[data["command"]](self, data)
 
     def chat_message(self, event):
-        message = event["message"]
-
-        self.send(text_data=json.dumps({"message": message}))
+        message = event["message"]  
+        self.send(text_data=json.dumps({"message": message, 'command': message['command']}))
 
     def send_chat_message(self, message):
         print("message sent")
