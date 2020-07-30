@@ -3,7 +3,29 @@
 {% block content %}
 
 <style>
-  .flex-container {
+ /*body > div.flex-container{
+    padding-left: 300px;
+    padding-right: 300px;
+    padding-top: 50px;
+  }*/
+  .container{
+    text-align:center;
+  }
+ /*div.flex-container .event-title{
+    text-align: center;
+    font-size: 5rem;
+    color: #086490;
+    font-family: "Raleway", sans-serif;
+    font-size: 56px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }*/
+   /*body > div.flex-container > p.body-image{
+    padding-top: 20px;
+    text-align: center;
+  }*/
+
+  /*.flex-container {
     display: flex;
     flex-direction: column;
     background-color: lightgrey;
@@ -19,15 +41,26 @@
     font-size: 30px;
     border-radius: 10px;
   }
-
+*/
+.event-body{
+   color: #086490;
+  font-weight: 700;
+  font-size: 20px;
+}
+h2{
+  color: #086490;
+  font-weight: 700;
+  font-size: 20px;
+}
   .responsive {
+    align-self: center;
     width: 100%;
     height: auto;
     max-height: 600px;
     max-width: 600px;
     border-radius: 30px;
-    align-self: center;
     padding: 5px;
+   
   }
 </style>
 
@@ -36,21 +69,22 @@
   <div class="row">
     <div class="col-md-10">
       <div class="flex-container">
+       <div class="event-title">
+         <h1> {{event.title}}</h1>
+        </div>
+       
         {% if event.image %}
-        <img class="responsive" src="{{event.image.url}}" alt="image cap">
+       <p class="body-image"> <img class="responsive" src="{{event.image.url}}" alt="image cap"></p>
         {% endif %}
-        <div class="custom">
-          {{event.title}}
+        <div class="event-start">
+         <h2> On: {{event.start_date}}
+          @{{event.start_time}}</h2>
         </div>
-        <div class="custom">
-          On: {{event.start_date}}
-          @{{event.start_time}}
+        <div class="event-venue">
+          <h2>Venue: {{event.venue}}</h2>
         </div>
-        <div class="custom">
-          Venue: {{event.venue}}
-        </div>
-        <div class="custom">
-          {{event.body}}
+        <div class="event-body">
+          </h2>{{event.body}}<h2>
         </div>
       </div>
     </div>

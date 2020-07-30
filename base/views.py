@@ -92,6 +92,12 @@ def allevents(request):
 
     return render(request, "all-events.html", context)
 
+def allstory(request):
+    context = {}
+    stories = Story.objects.order_by('-date_time')
+    context["stories"] = stories
+
+    return render(request,"all-stories.html",context)
 
 def speceficevent(request, event_id):
     context = {}
@@ -198,7 +204,9 @@ def addevent(request):
     if request.POST:
         form = AddEvent(request.POST)
         if form.is_valid():
-            form.save()
+            current = form.save(commit=False)
+            current.user=request.user
+            current.save()
             return redirect("base:allevents")
     else:
         form = AddEvent()
@@ -219,8 +227,6 @@ def addnews(request):
             current.user=request.user
             current.save()
             return redirect("base:allnews")
-        else:
-            return redirect("base:home")
     else:
         form = AddNews()
 
@@ -235,9 +241,10 @@ def addstory(request):
 
     if request.POST:
         form = AddStory(request.POST)
-        form.user = request.user
         if form.is_valid():
-            form.save()
+            current = form.save(commit=False)
+            current.user=request.user
+            current.save()
             return redirect("base:home")
     else:
         form = AddStory()
