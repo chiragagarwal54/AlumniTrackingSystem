@@ -66,7 +66,7 @@ def home(request):
     else:
         context["donation"] = donation
 
-    galleryimgs = Gallery.objects.all().order_by("-date_time");
+    galleryimgs = Gallery.objects.all().order_by("-date_time")
     context['gallery'] = galleryimgs[0:6]
     carousel_images = Carousel.objects.all().order_by('-date_time')
     context['carouselimages'] = carousel_images[0:6]
