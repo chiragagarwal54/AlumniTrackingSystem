@@ -145,7 +145,7 @@
 </form>
 
 {% for user in filter.qs %}
-<a href="{% url 'base:profile' user.first_name user.id %}">
+<a href="profile/{{user.first_name}}/{{user.id}}">
 	<div class="profile_conteiner col-sm-4 col-md-3">
 		<div class="image_conteiner">
 			<div class="image">
