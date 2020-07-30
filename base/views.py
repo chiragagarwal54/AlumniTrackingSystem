@@ -91,6 +91,12 @@ def allevents(request):
 
     return render(request, "all-events.html", context)
 
+def allstory(request):
+    context = {}
+    stories = Story.objects.order_by('-date_time')
+    context["stories"] = stories
+
+    return render(request,"all-stories.html",context)
 
 def speceficevent(request, event_id):
     context = {}
