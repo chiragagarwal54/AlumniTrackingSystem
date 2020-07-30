@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from hashlib import md5
+from accounts.decorators import verify_required
 
 # Create your views here.
 
 @login_required()
+@verify_required
 def room(request, room_name):
     context = {}
     if room_name == "general":

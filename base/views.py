@@ -9,6 +9,7 @@ import datetime
 from django.http import JsonResponse
 from .filters import UserFilter
 from base.forms import AddEvent, AddNews, AddStory
+from accounts.decorators import alumni_required, faculty_required, verify_required
 
 
 def base(request):
@@ -243,3 +244,4 @@ def addstory(request):
 
     context["form"] = form
     return render(request, "addstory.html", context)
+

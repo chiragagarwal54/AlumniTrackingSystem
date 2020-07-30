@@ -132,3 +132,7 @@ def update_alumni_profile(request):
 
     context["form"] = form
     return render(request, "account/editprofile.html", context)
+
+
+def verify(request):
+    return render(request, "account/please_verify.html", {})

@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 from django.conf import settings
 import stripe
 from payments.models import DonationType, DonationAmount
+from accounts.decorators import verify_required
 import datetime
 
 # Create your views here.
@@ -12,12 +13,14 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required()
+@verify_required
 def donate_home(request):
     donations = DonationType.objects.all()
     return render(request, "payments/home.html", {"donations": donations})
 
 
 @login_required()
+@verify_required
 def donate_main(request, dono_id):
     dono_amounts = DonationAmount.objects.filter(
         donation=DonationType.objects.get(donation_id=dono_id)
@@ -56,7 +59,8 @@ def create_checkout_session(request):
         except Exception as e:
             return JsonResponse({"error": str(e)})
 
-
+@login_required()
+@verify_required
 def success_view(request):
     try:
         transaction = stripe.checkout.Session.list_line_items(
@@ -76,6 +80,8 @@ def success_view(request):
         }
         return render(request, "payments/home.html", context)
 
+@login_required()
+@verify_required
 def cancelled_view(request):
     donations = DonationType.objects.all()
     context ={
