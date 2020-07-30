@@ -52,7 +52,7 @@ class Event(models.Model):
     venue = models.CharField(max_length=300)
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
     body = models.TextField()
-    slug = models.SlugField(unique=True, blank=True, null=True, default="unique")
+    slug = models.SlugField(unique=True, blank=True, default="")
 
     def __str__(self):
         return self.title
@@ -153,7 +153,7 @@ pre_save.connect(pre_save_Event, sender=Event)
 
 def pre_save_News(sender, instance, *args, **kwargs):
     if not instance.slug:
-        instance.slug = slugify(instance.title)
+        instance.slug = slugify(instance.title + str(instance.id))
 
 pre_save.connect(pre_save_News, sender=News)
 

@@ -8,6 +8,7 @@ from django.db.models import Q
 import datetime
 from django.http import JsonResponse
 from .filters import UserFilter
+from base.forms import AddEvent, AddNews, AddStory
 
 
 def base(request):
@@ -186,3 +187,59 @@ def verification_alumni(request):
         context["number"] = 1
     context["account"] = account
     return render(request, 'verification-request-list.html', context)
+
+def addevent(request):
+
+    context = {}
+
+    user = request.user
+
+    if request.POST:
+        form = AddEvent(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("base:allevents")
+    else:
+        form = AddEvent()
+
+    context["form"] = form
+    return render(request, "addevent.html", context)
+
+def addnews(request):
+
+    context = {}
+
+    user = request.user
+
+    if request.POST:
+        form = AddNews(request.POST)
+        if form.is_valid():
+            current = form.save(commit=False)
+            current.user=request.user
+            current.save()
+            return redirect("base:allnews")
+        else:
+            return redirect("base:home")
+    else:
+        form = AddNews()
+
+    context["form"] = form
+    return render(request, "addnews.html", context)
+
+def addstory(request):
+
+    context = {}
+
+    user = request.user
+
+    if request.POST:
+        form = AddStory(request.POST)
+        form.user = request.user
+        if form.is_valid():
+            form.save()
+            return redirect("base:home")
+    else:
+        form = AddStory()
+
+    context["form"] = form
+    return render(request, "addstory.html", context)

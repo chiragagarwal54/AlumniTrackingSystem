@@ -13,6 +13,9 @@ from base.views import(
     autocomplete,
     jobsection,
     verification_alumni,
+    addnews,
+    addstory,
+    addevent,
 )
 
 app_name='base'
@@ -29,4 +32,7 @@ urlpatterns = [
     path('autocomplete', autocomplete, name="autocomplete"),
     path('jobsection', jobsection,name="jobsection"),
     path('verifialumni', verification_alumni, name="verification_alumni"),
+    path('addstory', addstory, name="addstory"),
+    path('addevent', addevent, name="addevent"),
+    path('addnews', addnews, name="addnews"),
 ]
