@@ -75,7 +75,7 @@ def home(request):
 
 def allnews(request):
     context = {}
-    news = News.objects.all()
+    news = News.objects.order_by('-date_time')
     context["news"] = news
 
     return render(request, "all-news.html", context)
