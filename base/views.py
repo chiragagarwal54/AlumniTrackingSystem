@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from .filters import UserFilter
 from base.forms import AddEvent, AddNews, AddStory
 from college.models import College, Department
-
+from accounts.decorators import alumni_required, faculty_required, verify_required
 
 def base(request):
     return render(request, "base.html")
@@ -119,7 +119,7 @@ def allnews(request):
 def allevents(request):
     context = {}
     user = request.user
-    
+
     if(not user.is_authenticated or (user.is_authenticated and not user.college)):
         today = datetime.datetime.today()
         upcoming_events = Event.objects.filter(Q(start_date__gte=today))

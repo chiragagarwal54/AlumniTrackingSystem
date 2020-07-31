@@ -13,6 +13,9 @@ from accounts.forms import (
 from django.views.generic import CreateView, ListView, UpdateView
 from accounts.models import User
 from django_email_verification import sendConfirm
+from django.conf import settings
+from django_email_verification.Confirm import verifyToken
+from django_email_verification.errors import NotAllFieldCompiled
 
 
 class alumni_signup_view(CreateView):
@@ -132,3 +135,7 @@ def update_alumni_profile(request):
 
     context["form"] = form
     return render(request, "account/editprofile.html", context)
+
+
+def verify(request):
+    return render(request, "account/please_verify.html", {})
