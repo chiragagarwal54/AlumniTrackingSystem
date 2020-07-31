@@ -20,8 +20,23 @@ class College(models.Model):
         Group.objects.get(group_id = md5(self.name.encode("utf-8")).hexdigest()).delete()
         super(College, self).delete(*args, **kwargs)
 
+class Course(models.Model):
+    name = models.CharField(max_length = 200)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Department(models.Model):
     name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class Specialization(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name

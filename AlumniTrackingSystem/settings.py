@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'mailer',
     'django_email_verification',
     'widget_tweaks',
+    'phone_field',
 ]
 
 MIDDLEWARE = [
