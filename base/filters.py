@@ -10,4 +10,4 @@ class UserFilter(django_filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ['full_name', 'first_name', 'last_name', 'college', 'department', ]
+        fields = ['full_name', 'first_name', 'last_name', 'college', ]

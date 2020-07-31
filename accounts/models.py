@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from college.models import College, Department, Course, Specialization
-from phone_field import PhoneField
 from django.db.models.signals import pre_save, post_delete
+from django.utils.text import slugify
 
 def upload_user_image_location(instance, filename):
     file_path = 'user/{user_id}/{filename}'.format(
@@ -39,9 +39,9 @@ class User(AbstractUser):
     twitter_profile = models.URLField(max_length=1000, null=True, blank=True)
     linkedin_profile = models.URLField(max_length=1000, null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
-    phone = PhoneField(blank=True, help_text='Contact phone number')
-    about_me = models.TextField()
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+    phone = models.IntegerField(null=True, blank=True)
+    about_me = models.TextField(null=True, blank=True)
 
 class Alumni(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

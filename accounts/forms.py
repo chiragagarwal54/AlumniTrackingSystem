@@ -6,7 +6,6 @@ import datetime
 from college.models import College, Department, Course, Specialization
 from accounts.models import Alumni, Faculty, User
 from PIL import Image
-from phone_field import PhoneField
 
 def year_choices():
     return [(r,r) for r in range(1947, datetime.date.today().year+1)]
@@ -18,7 +17,7 @@ class AlumniSignUpForm(UserCreationForm):
     unique_id = forms.CharField(max_length=200)
     email = forms.EmailField()
     image = forms.ImageField()
-    phone = PhoneField(help_text='Contact phone number')
+    phone = forms.IntegerField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -53,7 +52,7 @@ class FacultySignUpForm(UserCreationForm):
     college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
     email = forms.EmailField()
     image = forms.ImageField()
-    phone = PhoneField(help_text='Contact phone number')
+    phone = forms.IntegerField()
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -180,4 +179,4 @@ class UpdateAlumniProfile(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'college', 'department', 'dob')
+        fields = ('first_name', 'last_name', 'email', 'college', 'dob')
