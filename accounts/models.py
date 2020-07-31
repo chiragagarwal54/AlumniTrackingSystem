@@ -40,7 +40,7 @@ class User(AbstractUser):
     linkedin_profile = models.URLField(max_length=1000, null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
-    phone = models.IntegerField(null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
     about_me = models.TextField(null=True, blank=True)
 
 class Alumni(models.Model):

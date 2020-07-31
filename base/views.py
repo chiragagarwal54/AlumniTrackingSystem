@@ -89,7 +89,8 @@ def home(request):
         context["lastjob"] = jobs.first()
 
         story = Story.objects.filter(college = user.college).order_by("-date_time")
-        context["storyitem"] = story[0]
+        if story.count() > 0:
+            context["storyitem"] = story[0]
 
         donation = DonationType.objects.filter(college = user.college or not college).order_by("-date_time")
         context["donation"] = donation[0:2]

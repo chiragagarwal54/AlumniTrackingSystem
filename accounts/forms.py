@@ -17,7 +17,7 @@ class AlumniSignUpForm(UserCreationForm):
     unique_id = forms.CharField(max_length=200)
     email = forms.EmailField()
     image = forms.ImageField()
-    phone = forms.IntegerField()
+    phone = forms.CharField(max_length=20)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -52,7 +52,7 @@ class FacultySignUpForm(UserCreationForm):
     college = forms.ModelChoiceField(queryset=College.objects.all(), required=True)
     email = forms.EmailField()
     image = forms.ImageField()
-    phone = forms.IntegerField()
+    phone = forms.CharField(max_length=20)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -104,9 +104,19 @@ class CompleteAlumniProfile(forms.ModelForm):
     def save(self, commit=True):
         user = self.user
         alumni = Alumni.objects.get(user=self.user)
-        user.department = Department.objects.get(name=self.cleaned_data['department'])
-        user.course = Course.objects.get(name=self.cleaned_data['course'])
-        user.specialization = Specialization.objects.get(name=self.cleaned_data['specialization'])
+
+        department = self.cleaned_data['department']
+        if department:
+            user.department = Department.objects.get(name=self.cleaned_data['department'])
+
+        course = self.cleaned_data['course']
+        if course:
+            user.course = Course.objects.get(name=self.cleaned_data['course'])
+
+        specialization = self.cleaned_data['specialization']
+        if specialization:
+            user.specialization = Specialization.objects.get(name=self.cleaned_data['specialization'])
+
         user.dob = self.cleaned_data['dob']
         alumni.year_of_passing = self.cleaned_data['year_of_passing']
         user.facebook_profile = self.cleaned_data['facebook_profile']
@@ -146,9 +156,19 @@ class CompleteFacultyProfile(forms.ModelForm):
     def save(self, commit=True):
         user = self.user
         faculty = Faculty.objects.get(user=self.user)
-        user.department = Department.objects.get(name=self.cleaned_data['department'])
-        user.course = Course.objects.get(name=self.cleaned_data['course'])
-        user.specialization = Specialization.objects.get(name=self.cleaned_data['specialization'])
+        
+        department = self.cleaned_data['department']
+        if department:
+            user.department = Department.objects.get(name=self.cleaned_data['department'])
+
+        course = self.cleaned_data['course']
+        if course:
+            user.course = Course.objects.get(name=self.cleaned_data['course'])
+
+        specialization = self.cleaned_data['specialization']
+        if specialization:
+            user.specialization = Specialization.objects.get(name=self.cleaned_data['specialization'])
+
         user.dob = self.cleaned_data['dob']
         faculty.college_joined_year = self.cleaned_data['college_joined_year']
         faculty.research_interest = self.cleaned_data['research_interest']

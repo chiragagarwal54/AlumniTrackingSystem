@@ -1,4 +1,5 @@
 from django.db import models
+from college.models import College
 
 # Create your models here.
 class DonationType(models.Model):
@@ -14,6 +15,7 @@ class DonationType(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to="donation_images/")
     date_time = models.DateTimeField(auto_now=True)
     days_remaining = models.IntegerField(blank=True, null=True)
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.donation_id

@@ -81,6 +81,7 @@ class News(models.Model):
     date_time = models.DateTimeField(auto_now=True)
     body = models.TextField()
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, default="")
 
     def __str__(self):
@@ -107,6 +108,7 @@ class Notice(models.Model):
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
     body = models.CharField(max_length=1000)
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -117,6 +119,7 @@ class Story(models.Model):
     body = models.TextField()
     date_time = models.DateTimeField(auto_now=True)
     slug = models.SlugField(unique=True, blank=True, default="")
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -125,6 +128,7 @@ class Gallery(models.Model):
     img = models.ImageField(upload_to=upload_gallery_image_location)
     date_time = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100, blank=True, null=True)
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.img.name
@@ -134,6 +138,7 @@ class Carousel(models.Model):
     date_time = models.DateTimeField(auto_now=True)
     caption = models.CharField(max_length=50, null=True, blank=True)
     text = models.CharField(max_length=100, null=True, blank=True)
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.photo.name
