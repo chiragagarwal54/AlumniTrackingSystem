@@ -2,12 +2,16 @@
 
 {% block content %}
 
-  <form method="post">
-    {% csrf_token %}
-    {{form.title}}
-    {{form.body}}
-    {{form.image}}
-    <button type="submit">Submit</button>
-  </form>
+{% load static %}
+<link href="{% static 'base/css/addeventform.css' %}" rel="stylesheet"></style>
+<div class="container">
+  <div class="jumbotron">
+    <form method="post">
+      {% csrf_token %}
+      {{form}}
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
 
 {% endblock content %}

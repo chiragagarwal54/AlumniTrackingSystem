@@ -1,102 +1,425 @@
 {% extends 'base.html' %}
 
 {% load static %}
-<link href="{% static 'base/css/profilepage.css' %}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 {% block content %}
+<link href="{% static 'base/css/profilepage.css' %}" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 
 
-  <div class="container">
-                    <div id="work-collections">
-                        <div class="row">
-                               <div class="col s12 m4 l8">
+ <!-- Sections -->
+ <!-- Personal Photo top page -->
+ <div class="text-center personal-img-container"> 
+  <img src="{{request.user.profile_photo.url}}" class="rounded-circle personal-img" alt="Portfolio Image Omar">
+</div>
 
-                                {% if is_alumni %}
-                                <!-- FOR ALUMNI -->
-                                <div id="profile-card" class="card">
-                                    <div class="card-image waves-effect waves-block waves-light">
-                                        <img class="activator" src="http://demo.geekslabs.com/materialize/v2.1/layout03/images/user-bg.jpg" alt="user background" style="max-height: 100px;">
-                                    </div>
-                                    <div class="card-content">
-                                        <img src="{{request.user.profile_photo.url}}" alt="" class="circle responsive-img activator card-profile-image" style="max-height: 300px;">
-                                        <a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 right">
-                                            <i class="mdi-action-account-circle">i</i>
-                                        </a>
 
-                                        <span class="card-title activator grey-text text-darken-4">{{user.first_name}} {{user.last_name}}</span>
-                                        <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Alumni of {{user.college}}</p>
-                                        <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
-                                        <p><i class="mdi-communication-email cyan-text text-darken-2"></i> Batch of {{alumni.year_of_passing}}</p>
+<div class="container container-custom" style="margin-bottom: 300px;">
 
-                                    </div>
-                                    <div class="card-reveal">
-                                      <!-- ALUMNI ADDITIONAL INFO -->
-                                        <span class="card-title grey-text text-darken-4">{{user.first_name}} {{user.last_name}}<i class="mdi-navigation-close right"></i></span>
-                                        <p>Here is some more information about Me</p>
-                                        <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Alumni of {{user.college}}</p>
-                                        <p><i class="mdi-communication-email cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
-                                        <p><i class="mdi-social-cake cyan-text text-darken-2"></i> Batch of {{alumni.year_of_passing}}</p>
-                                        <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i>ABOUT</p>
-                                    </div>
-                                </div>
+  <div id="top-sec" class="jumbotron top-section text-center side-shadow"> <!-- Top Section -->
+    <div class="row">
 
-                                {% elif is_faculty %}
-                                <!-- FOR FACULTY -->
-                                <div id="profile-card" class="card">
-                                  <div class="card-image waves-effect waves-block waves-light">
-                                      <img class="activator" src="http://demo.geekslabs.com/materialize/v2.1/layout03/images/user-bg.jpg" alt="user background" style="max-height: 100px;">
-                                  </div>
-                                  <div class="card-content">
-                                      <img src="{{request.user.profile_photo.url}}" alt="" class="circle responsive-img activator card-profile-image" style="max-height: 300px;">
-                                      <a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 right">
-                                          <i class="mdi-action-account-circle">i</i>
-                                      </a>
+      <div class="col-md-12"><br/>
+        <br>
+        <h1 style="font-family: Copperplate, Copperplate Gothic Light, fantasy;  font-weight: 500; line-height: 26.4px;">{{user.first_name}} {{user.last_name}}</h1>
+        <br>
+        {% if is_alumni %}
+        <h2>Alumni, {{user.college}}</h2>
+        {% elif is_faculty %}
+        <h2>Faculty, {{user.college}}</h2>
+        {% else %}
+        <h2>Super User</h2>
+        {% endif %}
+        <!-- <img src="https://goo.gl/Gp6bWr" alt="University of Michigan UMD" style="width: 100px; "> -->
 
-                                      <span class="card-title activator grey-text text-darken-4">{{user.first_name}} {{user.last_name}}</span>
-                                      <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Faculty at {{user.college}}</p>
-                                      <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
-                                      <p><i class="mdi-communication-email cyan-text text-darken-2"></i> From {{faculty.college_joined_year}}</p>
+        <br/><br/>
+        {%if is_alumni%}
+        <strong>{{user.department}} &bull; Batch of {{alumni.year_of_passing}}</strong>
+        {% elif is_faculty%}
+        <strong>{{user.department}} &bull; {{faculty.college_joined_year}} - Present</strong>
+        {%else%}
+        <p>Super User</p>
+        {%endif%}
 
-                                  </div>
-                                  <div class="card-reveal">
-                                    <!-- FACULTY ADDITIONAL INFO -->
-                                      <span class="card-title grey-text text-darken-4">{{user.first_name}} {{user.last_name}} <i class="mdi-navigation-close right"></i></span>
-                                      <p>Here is some more information about Me</p>
-                                      <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Faculty at {{user.college}}</p>
-                                      <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> Dept: {{user.department}}</p>
-                                      <p><i class="mdi-communication-email cyan-text text-darken-2"></i> From {{faculty.college_joined_year}}</p>
-                                      <p><i class="mdi-social-cake cyan-text text-darken-2"></i> Research interest: {{faculty.research_interest}}</p>
-                                      <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> ABOUT</p>
-                                  </div>
-                              </div>
-                              {% else %}
-                              <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
-                              <p>You are SuperUser!</p>
-                            {% endif %}
 
-                            {% if editprofile %}
-                              <a href="{% url 'accounts:update_alumni_profile' %}"><i>Edit Profile</i></a>
-                            {% endif %}
+      </div>
 
-                            {% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
-                            <form method="post">{% csrf_token %}
-                              <button type="submit">Approve verification</button>
-                            </form>
-                            {% endif %}
-                            </div>
-                      </div>
     </div>
+  </div>
+
+  <div id="about-sec" class="jumbotron middle-section text-center side-shadow" style="background-color: #1872ae;"> <!-- About Section -->
+
+    <!-- 'ABOUT ME' VECTOR -->
+    <h1 style="color: whitesmoke;">ABOUT ME</h1>
+    <svg height="25" width="60%">
+      <style type="text/css">.st0{opacity:0.35; fill:none; stroke:#000000; stroke-linecap:round; stroke-miterlimit:10;}</style>
+      <line class="st0" x1="0" y1="8" x2="100%" y2="8"/>
+    </svg>
+
+    <div class="row">
+      <div class="col-md-2"></div>
+
+      <div class="col-md-8">
+        <p class="about-me-txt" style="color: #e3e3e3;">Interested in {{faculty.research_interest}}</p>
+        
+      </div>
+
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+
+  <div id="nav-sec" class="jumbotron middle-section text-center nav-texture side-shadow"> <!-- Navigation Section -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Navigation buttons --> 
+
+        <div class="row">
+
+          <div class="col-lg-2"> <!-- LinkedIn Button -->
+            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(1);">LinkedIn Profile</button>
+          </div>
+
+          <div class="col-lg-2"> <!-- About Me Button -->
+            <p class="nav-button-text btn btn-primary" onclick="navSiteRedirect(2);">About Me</p>
+          </div>
+
+          <div class="col-lg-2"> <!-- Featured Work Button -->
+            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(3)">Featured Work</button>
+          </div>
+
+          <div class="col-lg-2"> <!-- Resume Button -->
+            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(4)">Resume</button>
+          </div>
+
+          <div class="col-lg-2"> <!-- University of Michigan Site Button -->
+            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(5)">University of Michigan</button>
+          </div>
+
+          <div class="col-lg-2"> <!-- Contact Button -->
+            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(6)">Contact Me</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  
+
+  <div id="resume-sec" class="jumbotron middle-section side-shadow" style="background-color: #1872ae;"> <!-- Resume Section -->
+
+    <div class="text-center"> <!-- Title of Section -->
+      <h1 style="color: whitesmoke;">RESUME</h1>
+      <br/><br/>
+    </div>
+
+    <div class="container" style="color: #e5e5e5;">
+      <div class="row">
+
+        <div class="col-lg-7"> <!-- Left Column -->
+
+          <div> <!-- Experience Section -->
+            <h4>EXPERIENCE</h4>
+            <div class="white-underline"></div>
+
+            <div class="section">
+              <div class="row">
+                <div class="col-lg-8">
+                  <p class="text-bold-header">Moe Yassir | Used Electronics Warehouse</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">2012-2013</p>
+                </div>
+              </div>
+
+              <ul class="ul-resume">
+                <li>Tested old complonents</li>
+                <li>Built computers out of old parts</li>
+                <li>Packaged computers for shipment</li>
+              </ul>
+            </div>
+          </div>
+
+          <br/>
+
+          <div> <!-- Education Section -->
+            <h4>EDUCATION</h4>
+            <div class="white-underline"></div>
+
+            <div class="section">
+              <div class="row">
+
+                <div class="col-lg-8">
+                  <p class="text-bold-header">BA in Computer Engineering - University of Michigan</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">2017-2021</p>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="row">
+
+                <div class="col-lg-8">
+                  <p class="text-bold-header">BA in Computer Science & Information Systems - University of Michigan</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">2017-2021</p>
+                </div>
+
+              </div>
+
+              <p class="subheading-resume">Transfered from Henry Ford College with a cumulative GPA of 3.623.</p>
+            </div>
+
+            <div class="section">
+              <div class="row">
+
+                <div class="col-lg-8">
+                  <p class="text-bold-header">Computer Science Prerequisite - Henry Ford College</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">2015-2017</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <br/>
+
+          <div> <!-- Technical Skills Section -->
+            <h4>TECHNICAL SKILLS</h4>
+            <div class="white-underline"></div>
+
+            <div class="section">
+
+              <div class="row">
+                <div class="col-sm-4">
+                  <ul class="ul-resume text-bold-header">
+                    <li>Languages:</li>
+                  </ul>
+                </div>
+
+                <div class="col-sm-8">
+                  <p>HTML, CSS, JS, C++, C, C#, Python, UNIX</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4">
+                  <ul class="ul-resume text-bold-header">
+                    <li>Operating Systems:</li>
+                  </ul>
+                </div>
+
+                <div class="col-sm-8">
+                  <p>Windows, Linux, UNIX</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4">
+                  <ul class="ul-resume text-bold-header">
+                    <li>Applications:</li>
+                  </ul>
+                </div>
+
+                <div class="col-sm-8">
+                  <p>Microsoft Office, Microsoft Visual Studio, Adobe Photoshop, Adobe Illustrator, Adobe Dreamweaver, Sublime Text, GitKraken</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4">
+                  <ul class="ul-resume text-bold-header">
+                    <li>Database Systems:</li>
+                  </ul>
+                </div>
+
+                <div class="col-sm-8">
+                  <p>Microsoft SQL, MySQL</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="col-lg-5"> <!-- Right Column -->
+
+          <div> <!-- Profile Section -->
+            <h4>PROFILE</h4>
+            <div class="white-underline"></div>
+
+            <div class="section">
+              <div class="row">
+                <div class="col-sm-3 text-bold-header">
+                  <p>Phone</p>
+                  <p>Email</p>
+                  <p>Address</p>
+                </div>
+
+                <div class="col-sm-9 subheading-resume text-right">
+                  <p>###-###-####</p>
+                  <p>Use Bottom Contact me</p>
+                  <p>Dearborn, Michigan</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br/>
+
+          <div> <!-- Projects Section -->
+            <h4>PROJECTS</h4>
+            <div class="white-underline"></div>
+            
+            <div class="section">
+              <div class="row">
+                <div class="col-lg-8">
+                  <p class="text-bold-header"><a style=" color: inherit; " target="_blank" href="https://codepen.io/Ciaxur/full/EvepNK/">Simon Game - Reimagined</a></p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">Summer 2017</p>
+                </div>
+              </div>
+
+              <p class="subheading-resume">A reimagined design for the original Simon Game by Hasbro that was launched in 1978. The game design is entirely
+              remade but the functionality is exactly the same. The project uses HTML, CSS, Javascript, and an animation API called TweenMax by GreenSock.</p>
+
+            </div>
+
+            <div class="section">
+              <div class="row">
+                <div class="col-lg-8">
+                  <p class="text-bold-header">C++ Dealership Final Project</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">Spring 2017</p>
+                </div>
+              </div>
+
+              <p class="subheading-resume">A fully functional Car Dealership program written in C++. Displays available
+              automobiles, contract information, and service information. The user is able to add a contract, view information, load data, and save data.</p>
+            </div>
+
+
+            <div class="section">
+              <div class="row">
+                <div class="col-lg-8">
+                  <p class="text-bold-header">Project Shift</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">Winter 2017</p>
+                </div>
+              </div>
+
+              <p class="subheading-resume">A Linux Bash script that detects a unique device that the user added to the list. Then, moves all media (Pictures and 
+              Videos) into a folder specified in the script. The script then organizes all the media into folders based on the timestamp of which they were taken/created.</p>
+            </div>
+
+          <br/>
+
+          <div> <!-- Certificates Section -->
+            <h4>CERTIFICATES</h4>
+            <div class="white-underline"></div>
+
+            <div class="section">
+              <div class="row">
+                <div class="col-lg-8">
+                  <p class="text-bold-header">Front End Development</p>
+                </div>
+
+                <div class="col-lg-4 text-right">
+                  <p class="text-bold-secondary">August 2017</p>
+                </div>
+              </div>
+
+              <p class="subheading-resume">Given by freeCodeCamp for completing the Front End Development course.</p>
+            </div>
+
+          </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="contact-sec" class="jumbotron middle-section side-shadow"> <!-- Contact Section -->
+    <div class="text-center">
+      <h1>CONTACT ME</h1>
+      <svg height="25" width="60%">
+      <style type="text/css">.st0{opacity:0.35; fill:none; stroke:#000000; stroke-linecap:round; stroke-miterlimit:10;}</style>
+      <line class="st0" x1="0" y1="8" x2="100%" y2="8"/>
+      </svg>
+    </div>
+
+    <div class="section">
+      <div class="row">
+        <div class="col-sm-1">
+        </div>
+
+        <div class="col-sm-10">
+          <form id="gform" method="POST" action="https://script.google.com/macros/s/AKfycby6JRGrptTjjZMB3JtPQJn-YtgCE_jLilR8oBBUTGA5flLF04Zs/exec">
+            <div class="form-group">
+              <label for="name">Name: </label>
+              <input id="name" name="name" placeholder="Name" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="email"><em>Your</em> Email Address:</label>
+              <input id="email" name="email" type="email" value=""
+              required placeholder="email" class="form-control" />
+              <small class="form-text text-muted">I'll Never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message: </label>
+              <textarea id="message" name="message" rows="10"
+              placeholder="Message" class="form-control" required="true"></textarea>
+            </div>
+
+            <div class="text-center">
+              <button class="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-sm-1">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
 
 
 {% endblock content %}
-
-
-
-
 
 
   <!-- <div class="container-fluid">
