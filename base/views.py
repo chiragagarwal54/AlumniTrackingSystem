@@ -9,6 +9,7 @@ import datetime
 from django.http import JsonResponse
 from .filters import UserFilter
 from base.forms import AddEvent, AddNews, AddStory
+from college.models import College, Department
 
 
 def base(request):
@@ -18,6 +19,7 @@ def base(request):
 def home(request):
     user = request.user
     context = {}
+
     if user.is_authenticated:
         if user.is_alumni:
             alumni = Alumni.objects.get(user=user)
@@ -35,66 +37,114 @@ def home(request):
             context["faculty"] = faculty
         else:
             context["is_superuser"] = 1
-    events = Event.objects.all().order_by("-start_date")
-    if events.count() < 3:
-        context["eventsitem"] = events
-    else:
+
+    if not user.is_authenticated or (user.is_authenticated and not user.college):
+        events = Event.objects.all().order_by("-start_date")
+        if events.count() < 3:
+            context["eventsitem"] = events
+        else:
+            context["eventsitem"] = events[0:3]
+        context["lastevent"] = events.last()
+
+        news = News.objects.all().order_by("-date_time")
+        if news.count() < 3:
+            context["newsitem"] = news
+        else:
+            context["newsitem"] = news[0:3]
+        context["lastnews"] = news.last()
+
+        jobs = Job.objects.all().order_by("-date_created")
+        if jobs.count() < 2:
+            context["jobsitem"] = jobs
+        else:
+            context["jobsitem"] = jobs[0:2]
+        context["lastjob"] = jobs.first()
+
+        story = Story.objects.all().order_by("-date_time")
+        if story.count() > 0:
+            context["storyitem"] = story[0]
+
+        donation = DonationType.objects.all().order_by("-date_time")
+        if donation.count() > 1:
+            context["donation"] = donation[0:2]
+        else:
+            context["donation"] = donation
+
+        galleryimgs = Gallery.objects.all().order_by("-date_time")
+        context['gallery'] = galleryimgs[0:6]
+        carousel_images = Carousel.objects.all().order_by('-date_time')
+        context['carouselimages'] = carousel_images[0:6]
+
+    elif user.is_authenticated and (user.is_alumni or user.is_faculty):
+        events = Event.objects.filter(college = user.college).order_by("-start_date")
         context["eventsitem"] = events[0:3]
-    context["lastevent"] = events.last()
+        context["lastevent"] = events.last()
 
-    news = News.objects.all().order_by("-date_time")
-    if news.count() < 3:
-        context["newsitem"] = news
-    else:
+        news = News.objects.filter(college = user.college).order_by("-date_time")
         context["newsitem"] = news[0:3]
-    context["lastnews"] = news.last()
+        context["lastnews"] = news.last()
 
-    jobs = Job.objects.all().order_by("-date_created")
-    if jobs.count() < 2:
-        context["jobsitem"] = jobs
-    else:
+        jobs = Job.objects.filter(college = user.college or not college).order_by("-date_created")
         context["jobsitem"] = jobs[0:2]
-    context["lastjob"] = jobs.first()
+        context["lastjob"] = jobs.first()
 
-    story = Story.objects.all().order_by("-date_time")
-    if story.count() > 0:
+        story = Story.objects.filter(college = user.college).order_by("-date_time")
         context["storyitem"] = story[0]
 
-    donation = DonationType.objects.all().order_by("-date_time")
-    if donation.count() > 1:
+        donation = DonationType.objects.filter(college = user.college or not college).order_by("-date_time")
         context["donation"] = donation[0:2]
-    else:
-        context["donation"] = donation
 
-    galleryimgs = Gallery.objects.all().order_by("-date_time")
-    context['gallery'] = galleryimgs[0:6]
-    carousel_images = Carousel.objects.all().order_by('-date_time')
-    context['carouselimages'] = carousel_images[0:6]
+        galleryimgs = Gallery.objects.filter(college = user.college or not college).order_by("-date_time")
+        context['gallery'] = galleryimgs[0:6]
+
+        carousel_images = Carousel.objects.filter(college = user.college or not college).order_by('-date_time')
+        context['carouselimages'] = carousel_images[0:6]
+
     return render(request, "home.html", context)
 
 
 def allnews(request):
     context = {}
-    news = News.objects.order_by('-date_time')
-    context["news"] = news
+    user = request.user
+    if(not user.is_authenticated or (user.is_authenticated and not user.college)):
+        news = News.objects.order_by('-date_time')
+        context["news"] = news
+    else:
+        news = News.objects.filter(college = user.college).order_by('-date_time')
+        context["news"] = news
 
     return render(request, "all-news.html", context)
 
 
 def allevents(request):
     context = {}
-    today = datetime.datetime.today()
-    upcoming_events = Event.objects.filter(Q(start_date__gte=today))
-    past_events = Event.objects.filter(Q(start_date__lte=today))
-    context["upcoming_events"] = upcoming_events
-    context["past_events"] = past_events
+    user = request.user
+    
+    if(not user.is_authenticated or (user.is_authenticated and not user.college)):
+        today = datetime.datetime.today()
+        upcoming_events = Event.objects.filter(Q(start_date__gte=today))
+        past_events = Event.objects.filter(Q(start_date__lt=today))
+        context["upcoming_events"] = upcoming_events
+        context["past_events"] = past_events
+    else:
+        today = datetime.datetime.today()
+        upcoming_events = Event.objects.filter(Q(start_date__gte=today)).filter(college = user.college)
+        past_events = Event.objects.filter(Q(start_date__lt=today)).filter(college = user.college)
+        context["upcoming_events"] = upcoming_events
+        context["past_events"] = past_events
 
     return render(request, "all-events.html", context)
 
 def allstory(request):
     context = {}
-    stories = Story.objects.order_by('-date_time')
-    context["stories"] = stories
+    user = request.user
+
+    if(not user.is_authenticated or (user.is_authenticated and not user.college)):
+        stories = Story.objects.order_by('-date_time')
+        context["stories"] = stories
+    else:
+        stories = Story.objects.filter(college=user.college).order_by('-date_time')
+        context["stories"] = stories
 
     return render(request,"all-stories.html",context)
 

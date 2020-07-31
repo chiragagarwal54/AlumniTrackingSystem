@@ -6,6 +6,7 @@ from accounts.models import User, Alumni, Faculty
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.utils.timezone import localdate, localtime
+from college.models import College, Department
 
 def upload_event_image_location(instance, filename):
     file_path = 'event/{event_id}/{filename}'.format(
@@ -43,7 +44,7 @@ def upload_carousel_image_location(instance, filename):
     return file_path
 
 class Event(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     title = models.CharField(max_length=150)
     start_date = models.DateField(default=localdate)
     end_date = models.DateField(default=localdate)
@@ -52,6 +53,7 @@ class Event(models.Model):
     venue = models.CharField(max_length=300)
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
     body = models.TextField()
+    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, default="")
 
     def __str__(self):
@@ -74,7 +76,7 @@ class Event(models.Model):
         return self.start_date.strftime('%A')
 
 class News(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     title = models.CharField(max_length=150)
     date_time = models.DateTimeField(auto_now=True)
     body = models.TextField()
@@ -101,7 +103,7 @@ class News(models.Model):
         return self.date_time.strftime('%A')
 
 class Notice(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to=upload_event_image_location, null=True, blank=True)
     body = models.CharField(max_length=1000)
@@ -110,7 +112,7 @@ class Notice(models.Model):
         return self.title
 
 class Story(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL)
     title = models.CharField(max_length=150)
     body = models.TextField()
     date_time = models.DateTimeField(auto_now=True)

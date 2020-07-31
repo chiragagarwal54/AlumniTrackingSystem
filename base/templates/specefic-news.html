@@ -2,31 +2,31 @@
 
 {% block content %}
 <style>
-  body > div.news-detail-page{
+  div.news-detail-page{
     padding-left: 400px;
     padding-right: 400px;
     padding-top: 50px;
   }
 
-  body > div.news-detail-page > div.section-heading > p{
+  div.news-detail-page > div.section-heading > p{
     text-align: center;
     font-size: 2rem;
     color: #086490;
   }
 
-  body > div.news-detail-page > div.section-body > p.separator{
+  div.news-detail-page > div.section-body > p.separator{
     border-bottom: 1px solid grey;
     box-sizing: border-box;
     margin: 0.5rem auto 0;
     align: center;
   }
 
-  body > div.news-detail-page > div.section-body > p.body{
+  div.news-detail-page > div.section-body > p.body{
     font-size: 0.9rem;
     padding-top: 20px;
   }
 
-  body > div.news-detail-page > div.section-body > p.body-image{
+  div.news-detail-page > div.section-body > p.body-image{
     padding-top: 20px;
     text-align: center;
   }
@@ -44,6 +44,7 @@
     {% endif %}
     <p class="body">{{news.body}}</p>
   </div>
+
   <div id="disqus_thread"></div>
   <script>
     /**
