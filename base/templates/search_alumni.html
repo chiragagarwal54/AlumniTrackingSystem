@@ -134,8 +134,16 @@
 				{% render_field filter.form.college class="form-control" %}
 			</div>
 			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.course.label_tag }}</p>
+				{% render_field filter.form.course class="form-control" %}
+			</div>
+			<div class="form-group col-sm-4 col-md-3">
 				<p class="label">{{ filter.form.department.label_tag }}</p>
 				{% render_field filter.form.department class="form-control" %}
+			</div>
+			<div class="form-group col-sm-4 col-md-3">
+				<p class="label">{{ filter.form.specialization.label_tag }}</p>
+				{% render_field filter.form.specialization class="form-control" %}
 			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">
@@ -158,7 +166,7 @@
 			<div class="title">
 				<h3>{{user.first_name}} {{user.last_name}}</h3>
 				<p>College: {{user.college.name}}</p>
-				<p>Department: {{user.department.name}}</p>
+				<p>Course: {{user.course.name}}</p>
 			</div>
 			<div class="objective">
 			<p>About Me: {{user.about_me}}</p>

@@ -19,7 +19,7 @@
     padding-bottom: 10px;
   }
 
-  .modal-content 
+  .modal-content
   {
       width: 100% !important;
   }
@@ -181,12 +181,12 @@ p
 .white-underline
 {
   background-color:
-  whitesmoke; 
-  height: 2px; 
-  width: 100%; 
-  margin-left: 5px; 
+  whitesmoke;
+  height: 2px;
+  width: 100%;
+  margin-left: 5px;
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   opacity: 0.6;
 }
 
@@ -208,4 +208,9 @@ p
 .subheading-resume
 {
   font-weight: 400;
+}
+
+#resume-sec > div > div > div.col-lg-7 > div > div:nth-child(3){
+  padding-bottom: 1px;
+  padding-top: 1px;
 }

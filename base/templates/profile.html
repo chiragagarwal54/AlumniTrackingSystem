@@ -3,18 +3,26 @@
 {% load static %}
 
 {% block content %}
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+</head>
 <link href="{% static 'base/css/profilepage.css' %}" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
-
+<style>
+  #resume-sec > div > div > div.col-lg-7 > div > div.section{
+    padding-bottom: 1px;
+    padding-top: 1px;
+  }
+</style>
 
  <!-- Sections -->
  <!-- Personal Photo top page -->
- <div class="text-center personal-img-container"> 
+<div class="text-center personal-img-container">
   <img src="{{request.user.profile_photo.url}}" class="rounded-circle personal-img" alt="Portfolio Image Omar">
 </div>
 
@@ -39,9 +47,9 @@
 
         <br/><br/>
         {%if is_alumni%}
-        <strong>{{user.department}} &bull; Batch of {{alumni.year_of_passing}}</strong>
+        <strong>{{user.course}} &bull; Batch of {{alumni.year_of_passing}}</strong>
         {% elif is_faculty%}
-        <strong>{{user.department}} &bull; {{faculty.college_joined_year}} - Present</strong>
+        <strong>{{user.course}} &bull; {{faculty.college_joined_year}} - Present</strong>
         {%else%}
         <p>Super User</p>
         {%endif%}
@@ -52,57 +60,65 @@
     </div>
   </div>
 
-  <div id="about-sec" class="jumbotron middle-section text-center side-shadow" style="background-color: #1872ae;"> <!-- About Section -->
+  <!-- About Me Section -->
+  {% if user.about_me %}
+    <div id="about-sec" class="jumbotron middle-section text-center side-shadow" style="background-color: #1872ae;">
+      <!-- 'ABOUT ME' VECTOR -->
+      <h1 style="color: whitesmoke;">ABOUT ME</h1>
+      <svg height="25" width="60%">
+        <style type="text/css">.st0{opacity:0.35; fill:none; stroke:#000000; stroke-linecap:round; stroke-miterlimit:10;}</style>
+        <line class="st0" x1="0" y1="8" x2="100%" y2="8"/>
+      </svg>
 
-    <!-- 'ABOUT ME' VECTOR -->
-    <h1 style="color: whitesmoke;">ABOUT ME</h1>
-    <svg height="25" width="60%">
-      <style type="text/css">.st0{opacity:0.35; fill:none; stroke:#000000; stroke-linecap:round; stroke-miterlimit:10;}</style>
-      <line class="st0" x1="0" y1="8" x2="100%" y2="8"/>
-    </svg>
+      <div class="row">
+        <div class="col-md-2"></div>
 
-    <div class="row">
-      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <p class="about-me-txt" style="color: #e3e3e3;">{{user.about_me}}</p>
 
-      <div class="col-md-8">
-        <p class="about-me-txt" style="color: #e3e3e3;">Interested in {{faculty.research_interest}}</p>
-        
+        </div>
+
+        <div class="col-md-2"></div>
       </div>
-
-      <div class="col-md-2"></div>
     </div>
-  </div>
+  {% endif %}
+  <!-- End of About Me Section -->
+
 
   <div id="nav-sec" class="jumbotron middle-section text-center nav-texture side-shadow"> <!-- Navigation Section -->
 
     <div class="row">
       <div class="col-md-12">
-        <!-- Navigation buttons --> 
+        <!-- Navigation buttons -->
 
         <div class="row">
 
+          {% if user.linkedin_profile %}
           <div class="col-lg-2"> <!-- LinkedIn Button -->
-            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(1);">LinkedIn Profile</button>
+            <button class="nav-button-text btn btn-primary" onclick="location.href = '{{user.linkedin_profile}}';"">LinkedIn Profile</button>
           </div>
+          {% endif %}
 
+          {% if user.facebook_profile %}
           <div class="col-lg-2"> <!-- About Me Button -->
-            <p class="nav-button-text btn btn-primary" onclick="navSiteRedirect(2);">About Me</p>
+            <p class="nav-button-text btn btn-primary" onclick="location.href = '{{user.facebook_profile}}';">Facebook Profile</p>
           </div>
+          {% endif %}
 
+          {% if user.twitter_profile %}
           <div class="col-lg-2"> <!-- Featured Work Button -->
-            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(3)">Featured Work</button>
+            <button class="nav-button-text btn btn-primary" onclick="navSlocation.href = '{{user.twitter_profile}}';">Twitter Profile</button>
           </div>
+          {% endif %}
 
+          {% if user.college %}
           <div class="col-lg-2"> <!-- Resume Button -->
-            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(4)">Resume</button>
+            <button class="nav-button-text btn btn-primary" onclick="#">{{user.college.name}}</button>
           </div>
-
-          <div class="col-lg-2"> <!-- University of Michigan Site Button -->
-            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(5)">University of Michigan</button>
-          </div>
+          {% endif %}
 
           <div class="col-lg-2"> <!-- Contact Button -->
-            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(6)">Contact Me</button>
+            <button class="nav-button-text btn btn-primary" onclick="navSiteRedirect(1)">Contact Me</button>
           </div>
 
         </div>
@@ -112,20 +128,16 @@
     </div>
   </div>
 
-  
+
 
   <div id="resume-sec" class="jumbotron middle-section side-shadow" style="background-color: #1872ae;"> <!-- Resume Section -->
-
-    <div class="text-center"> <!-- Title of Section -->
-      <h1 style="color: whitesmoke;">RESUME</h1>
-      <br/><br/>
-    </div>
 
     <div class="container" style="color: #e5e5e5;">
       <div class="row">
 
         <div class="col-lg-7"> <!-- Left Column -->
 
+          {% if alumni.company or alumni.title %}
           <div> <!-- Experience Section -->
             <h4>EXPERIENCE</h4>
             <div class="white-underline"></div>
@@ -133,132 +145,73 @@
             <div class="section">
               <div class="row">
                 <div class="col-lg-8">
-                  <p class="text-bold-header">Moe Yassir | Used Electronics Warehouse</p>
+                  <p class="text-bold-header">{{alumni.company}} | {{alumni.title}}</p>
                 </div>
 
                 <div class="col-lg-4 text-right">
                   <p class="text-bold-secondary">2012-2013</p>
                 </div>
               </div>
-
-              <ul class="ul-resume">
-                <li>Tested old complonents</li>
-                <li>Built computers out of old parts</li>
-                <li>Packaged computers for shipment</li>
-              </ul>
             </div>
           </div>
+          {% endif %}
 
-          <br/>
 
           <div> <!-- Education Section -->
             <h4>EDUCATION</h4>
             <div class="white-underline"></div>
 
+            {% if user.college %}
             <div class="section">
               <div class="row">
 
                 <div class="col-lg-8">
-                  <p class="text-bold-header">BA in Computer Engineering - University of Michigan</p>
+                  <p class="text-bold-header">College: {{user.college.name}}</p>
                 </div>
 
+                {% if alumni.year_of_passing %}
                 <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">2017-2021</p>
+                  <p class="text-bold-secondary">Graduated on {{alumni.year_of_passing}}</p>
                 </div>
+                {% endif %}
 
               </div>
             </div>
+            {% endif %}
 
+            {% if user.course %}
+            <div class="section">
+              <div class="row">
+                <div class="col-lg-8">
+                  <p class="text-bold-header">Course: {{user.course.name}}</p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            {% if user.department %}
             <div class="section">
               <div class="row">
 
                 <div class="col-lg-8">
-                  <p class="text-bold-header">BA in Computer Science & Information Systems - University of Michigan</p>
+                  <p class="text-bold-header">Department: {{user.department.name}}</p>
                 </div>
-
-                <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">2017-2021</p>
-                </div>
-
               </div>
-
-              <p class="subheading-resume">Transfered from Henry Ford College with a cumulative GPA of 3.623.</p>
             </div>
+            {% endif %}
 
+            {% if user.specialization %}
             <div class="section">
               <div class="row">
 
                 <div class="col-lg-8">
-                  <p class="text-bold-header">Computer Science Prerequisite - Henry Ford College</p>
+                  <p class="text-bold-header">Specialization: {{user.specialization.name}}</p>
                 </div>
-
-                <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">2015-2017</p>
-                </div>
-
               </div>
             </div>
+            {% endif %}
           </div>
-
           <br/>
-
-          <div> <!-- Technical Skills Section -->
-            <h4>TECHNICAL SKILLS</h4>
-            <div class="white-underline"></div>
-
-            <div class="section">
-
-              <div class="row">
-                <div class="col-sm-4">
-                  <ul class="ul-resume text-bold-header">
-                    <li>Languages:</li>
-                  </ul>
-                </div>
-
-                <div class="col-sm-8">
-                  <p>HTML, CSS, JS, C++, C, C#, Python, UNIX</p>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-sm-4">
-                  <ul class="ul-resume text-bold-header">
-                    <li>Operating Systems:</li>
-                  </ul>
-                </div>
-
-                <div class="col-sm-8">
-                  <p>Windows, Linux, UNIX</p>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-sm-4">
-                  <ul class="ul-resume text-bold-header">
-                    <li>Applications:</li>
-                  </ul>
-                </div>
-
-                <div class="col-sm-8">
-                  <p>Microsoft Office, Microsoft Visual Studio, Adobe Photoshop, Adobe Illustrator, Adobe Dreamweaver, Sublime Text, GitKraken</p>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-sm-4">
-                  <ul class="ul-resume text-bold-header">
-                    <li>Database Systems:</li>
-                  </ul>
-                </div>
-
-                <div class="col-sm-8">
-                  <p>Microsoft SQL, MySQL</p>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
         </div>
 
 
@@ -272,98 +225,23 @@
             <div class="section">
               <div class="row">
                 <div class="col-sm-3 text-bold-header">
-                  <p>Phone</p>
                   <p>Email</p>
                   <p>Address</p>
                 </div>
 
                 <div class="col-sm-9 subheading-resume text-right">
-                  <p>###-###-####</p>
-                  <p>Use Bottom Contact me</p>
-                  <p>Dearborn, Michigan</p>
+                  <p>{{user.email}}</p>
+                  {% if alumni.address %}
+                  <p>{{alumni.address}}</p>
+                  {% else %}
+                  <p>Not provided</p>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
-
           <br/>
-
-          <div> <!-- Projects Section -->
-            <h4>PROJECTS</h4>
-            <div class="white-underline"></div>
-            
-            <div class="section">
-              <div class="row">
-                <div class="col-lg-8">
-                  <p class="text-bold-header"><a style=" color: inherit; " target="_blank" href="https://codepen.io/Ciaxur/full/EvepNK/">Simon Game - Reimagined</a></p>
-                </div>
-
-                <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">Summer 2017</p>
-                </div>
-              </div>
-
-              <p class="subheading-resume">A reimagined design for the original Simon Game by Hasbro that was launched in 1978. The game design is entirely
-              remade but the functionality is exactly the same. The project uses HTML, CSS, Javascript, and an animation API called TweenMax by GreenSock.</p>
-
-            </div>
-
-            <div class="section">
-              <div class="row">
-                <div class="col-lg-8">
-                  <p class="text-bold-header">C++ Dealership Final Project</p>
-                </div>
-
-                <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">Spring 2017</p>
-                </div>
-              </div>
-
-              <p class="subheading-resume">A fully functional Car Dealership program written in C++. Displays available
-              automobiles, contract information, and service information. The user is able to add a contract, view information, load data, and save data.</p>
-            </div>
-
-
-            <div class="section">
-              <div class="row">
-                <div class="col-lg-8">
-                  <p class="text-bold-header">Project Shift</p>
-                </div>
-
-                <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">Winter 2017</p>
-                </div>
-              </div>
-
-              <p class="subheading-resume">A Linux Bash script that detects a unique device that the user added to the list. Then, moves all media (Pictures and 
-              Videos) into a folder specified in the script. The script then organizes all the media into folders based on the timestamp of which they were taken/created.</p>
-            </div>
-
-          <br/>
-
-          <div> <!-- Certificates Section -->
-            <h4>CERTIFICATES</h4>
-            <div class="white-underline"></div>
-
-            <div class="section">
-              <div class="row">
-                <div class="col-lg-8">
-                  <p class="text-bold-header">Front End Development</p>
-                </div>
-
-                <div class="col-lg-4 text-right">
-                  <p class="text-bold-secondary">August 2017</p>
-                </div>
-              </div>
-
-              <p class="subheading-resume">Given by freeCodeCamp for completing the Front End Development course.</p>
-            </div>
-
-          </div>
-
-          </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -415,51 +293,187 @@
       </div>
     </div>
   </div>
-  
+
 </div>
 
 
 {% endblock content %}
 
+<script>
+/* Javascript Code */
+// Variables
 
-  <!-- <div class="container-fluid">
-    <div class="row">
-        <div class="col col-lg-3">
+// Process
 
-        </div>
-        <div class="col col-lg-6 col-md-12 col-sm-12 col-12 main-part">
-          <div class="container-fluid profile-top">
-            <img class="card-img-top profilepic" src="{request.user.profile_photo.url}" alt="Card image cap">
-            <div class="card-body">
-              {% if is_alumni %}
-                <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
-                <p class="card-text">College: {{user.college}}</p>
-                <p class="card-text">Dept: {{user.department}}</p>
-                <p class="card-text">Year Of Passing Out: {{alumni.year_of_passing}}</p>
-              {% elif is_faculty %}
-                <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
-                <p class="card-text">College: {{user.college}}</p>
-                <p class="card-text">Dept: {{user.department}}</p>
-                <p class="card-text">Year of joining college: {{faculty.college_joined_year}}</p>
-                <p class="card-text">Research interest: {{faculty.research_interest}}</p>
-              {% else %}
-                <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
-                <p>You are SuperUser!</p>
-              {% endif %}
+function navSiteRedirect(type)
+{
+	switch(type)
+	{
+		case 1:
+			$('#contact-sec').goTo();
+			break;
 
-              {% if editprofile %}
-                <a href="{% url 'accounts:update_alumni_profile' %}"<button>Edit Profile</button></a>
-              {% endif %}
-            </div>
-          </div>
-          {% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
-          <form method="post">{% csrf_token %}
-            <button type="submit">Approve verification</button>
-          </form>
-          {% endif %}
+		default:
+			alert("Redirection Error Occured!");								// If something goes wrong
+			break
+	}
+}
 
-        </div>
-        <div class="col col-lg-2 col-md-12 col-sm-12 col-12">
 
-        </div>
-      </div> -->
+// jQuery Function to scroll to a div
+(function($) {
+    $.fn.goTo = function() {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top + 'px'
+        }, 'slow');
+        return this;
+    }
+})(jQuery);
+
+
+/* Main JavaScript Code */
+$(document).ready(function()
+{
+  // Variables
+	var mySlides = document.getElementsByClassName("mySlides");
+
+  // Div Pages
+	slideNumCount();
+	currentDiv(1);
+
+	// Code Pages
+	checkCodePages(); // Already checks when going through the slides & in loadFeaturedWorkData
+
+	for(var x=0; x<mySlides.length; x++)	// Already checks in loadFeaturedWorkData
+		addPage(0, x);
+});
+
+/* Slideshow Slides for div tags */
+
+var slideIndex = 1;
+
+
+function plusDivs(n)
+{
+	showDivs(slideIndex += n);
+}
+
+function currentDiv(n)
+{
+  showDivs(slideIndex = n);
+}
+
+
+function showDivs(n)
+{
+	var i;
+	var x = document.getElementsByClassName("mySlides");
+	var dots = document.getElementsByClassName("slideNum")
+
+
+	if (n > x.length)
+		slideIndex = 1;
+
+	if (n < 1)
+		slideIndex = x.length;
+
+    for (i = 0; i < x.length; i++)
+ 		x[i].style.display = "none";
+
+	for (i = 0; i < dots.length; i++)
+		dots[i].className = dots[i].className.replace(" btn-danger", "");
+
+
+	x[slideIndex-1].style.display = "block";
+	dots[slideIndex-1].className += " btn-danger";
+
+	// Check how many Code Pages on Div
+	checkCodePages();
+}
+
+function slideNumCount()
+{
+	var slides = document.getElementsByClassName("mySlides").length;
+	var slidesContainer = document.getElementsByClassName("slideNum-container")[0];
+
+	for(var i=1; i<=slides; i++)
+		slidesContainer.innerHTML += '<button class="btn slideNum" onclick="currentDiv(' + i + ')">' + i + '</button>';
+}
+
+
+/* Pages for Code Text Area */
+var codePage = 0;
+
+function addPage(n, index=slideIndex-1)
+{
+	// Increment the code page
+	codePage += n;
+
+	// Variables for the TextArea Container Class
+	var textAreaContainer = document.getElementsByClassName("mySlides")[index].children[0].getElementsByClassName("code-textarea-container");
+
+
+	// Go through and un-display Container
+	for(var i=0; i<textAreaContainer.length; i++)
+		textAreaContainer[i].style.display = 'none';
+
+	// Make sure the index or go negative
+	if(codePage < 0)
+		codePage = textAreaContainer.length-1;
+
+	// Make sure you don't pass the index
+	if(codePage > textAreaContainer.length-1)
+		codePage = 0;
+
+	// Select the pages from 'n'
+	textAreaContainer[codePage].style.display = 'block';
+}
+
+function checkCodePages()
+{
+	// Variables for code page arrows
+	var textArea = document.getElementsByClassName("mySlides")[slideIndex-1].children[0].getElementsByClassName("code-textarea");
+	var leftArrow = document.getElementsByClassName("fa-arrow-left")[slideIndex-1].parentElement.style;
+	var rightArrow = document.getElementsByClassName("fa-arrow-right")[slideIndex-1].parentElement.style;
+
+	// Check if there are less than 1 code files
+	if(textArea.length < 2)
+	{
+		leftArrow.display = 'none';
+		rightArrow.display = 'none';
+	}
+
+	else
+	{
+		leftArrow.display = '';
+		rightArrow.display = '';
+	}
+}
+
+/* Image Modal Function */
+function modalImg(element)
+{
+	// Get the modal
+	var modal = document.getElementById('myModal');
+
+	// Get the image and insert it inside the modal - use its "alt" text as a caption
+	var modalImg = document.getElementById("img-modal");
+	var captionText = document.getElementById("caption");
+
+
+	modal.style.display = "block";
+    modalImg.src = element.src;
+    captionText.innerHTML = element.alt;
+}
+
+</script>
+
+
+{% if editprofile %}
+  <a href="{% url 'accounts:update_alumni_profile' %}"<button>Edit Profile</button></a>
+{% endif %}
+{% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
+  <form method="post">{% csrf_token %}
+    <button type="submit">Approve verification</button>
+  </form>
+{% endif %}
