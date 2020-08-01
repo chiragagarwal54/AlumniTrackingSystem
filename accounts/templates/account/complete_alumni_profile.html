@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 {% load static %}
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
   <div class="row">
@@ -11,7 +10,7 @@
       <form method="post" id="regForm" novalidate>
         {% csrf_token %}
         <p>Date of Birth
-          {{form.dob}}
+          <input type="text" name="dob" required_id="id_dob" class="datepicker">
         </p>
         <p>Course
           {{form.course}}
@@ -57,3 +56,9 @@
     </div>
   </div>
 {% endblock %}
+
+<script>
+  $(document).ready(function(){
+      $('.datepicker').datepicker();
+    });
+</script>
