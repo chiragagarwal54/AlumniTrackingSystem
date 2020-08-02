@@ -156,7 +156,7 @@ class CompleteFacultyProfile(forms.ModelForm):
     def save(self, commit=True):
         user = self.user
         faculty = Faculty.objects.get(user=self.user)
-        
+
         department = self.cleaned_data['department']
         if department:
             user.department = Department.objects.get(name=self.cleaned_data['department'])
@@ -197,6 +197,8 @@ class AccountAuthenticationForm(forms.ModelForm):
 
 class UpdateAlumniProfile(forms.ModelForm):
 
+    company = forms.CharField(max_length=200, required=False)
+
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'college', 'dob')
+        fields = ('first_name', 'last_name', 'email', 'dob', 'username', 'profile_photo', 'facebook_profile', 'twitter_profile', 'linkedin_profile', 'location', 'phone', 'about_me')
