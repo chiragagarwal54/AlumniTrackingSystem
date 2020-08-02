@@ -331,6 +331,14 @@
     </div>
   </div>
   {% endif %}
+  {% if editprofile %}
+  <a href="{% url 'accounts:update_alumni_profile' %}" <button>Edit Profile</button></a>
+  {% endif %}
+  {% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
+  <form method="post">{% csrf_token %}
+    <button type="submit">Approve verification</button>
+  </form>
+  {% endif %}
 
 </div>
 <script>
@@ -534,13 +542,3 @@
 
 </script>
 {% endblock %}
-
-
-{% if editprofile %}
-<a href="{% url 'accounts:update_alumni_profile' %}" <button>Edit Profile</button></a>
-{% endif %}
-{% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
-<form method="post">{% csrf_token %}
-  <button type="submit">Approve verification</button>
-</form>
-{% endif %}
