@@ -64,8 +64,8 @@ class Faculty(models.Model):
     research_interest = models.CharField(max_length=300, null=True)
     unique_id = models.CharField(unique=True, max_length=200)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
     def __str__(self):
