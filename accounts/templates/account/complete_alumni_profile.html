@@ -5,77 +5,106 @@
 <html lang=en>
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://code.jquery.com/jquery-3.5.1.js"
-		integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js"></script>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="{% static 'chat/css/materialize.css' %}">
-	<script src="{% static 'chat/js/materialize.js' %}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'chat/css/materialize.css' %}">
+  <script src="{% static 'chat/js/materialize.js' %}"></script>
 </head>
+
 <body>
-{% include 'snippets/header.html' %}
-<link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
+  {% include 'snippets/header.html' %}
+  <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
   <div class="row">
-    <div class="col-md-8 col-sm-10 col-12">
-      <div class="container"><h2>Welcome {{request.user}}! Complete your profile for verification!</h2></div>
+    <div class="col s12">
+      <div class="container">
+        <h2>Welcome {{request.user}}! Complete your profile for verification!</h2>
+      </div>
       <form method="post" id="regForm" novalidate>
         {% csrf_token %}
-        <p>Date of Birth
+        <div class="input-field col s12">
           <input type="text" name="dob" required_id="id_dob" class="datepicker">
-        </p>
-        <p>Course
+          <label>Date of Birth</label>
+        </div>
+        <div class="input-field col s12">
           {{form.course}}
-        </p>
-        <p>Department
+          <label>Course</label>
+        </div>
+        <div class="input-field col s12">
           {{form.department}}
-        </p>
-        <p>Specialization
+          <label>Department</label>
+        </div>
+        <div class="input-field col s12">
           {{form.specialization}}
-        </p>
-        <p>Year of Passing
+          <label>Specialization</label>
+        </div>
+        <div class="input-field col s12">
           {{form.year_of_passing}}
-        </p>
-        <p>About Yourself
+          <label>Year of Passing</label>
+        </div>
+        <div class="input-field col s12">
           {{form.about_me}}
-        </p>
-        <p>Location
+          <label>About Me</label>
+        </div>
+        <div class="input-field col s12">
           {{form.location}}
-        </p>
-        <p>Facebook Profile Link
+          <label>Location</label>
+        </div>
+        <div class="input-field col s12">
           {{form.facebook_profile}}
-        </p>
-        <p>Twitter Profile Link
+          <label>Facebook Profile</label>
+        </div>
+        <div class="input-field col s12">
           {{form.twitter_profile}}
-        </p>
-        <p>Linkedin Profile Link
+          <label>Twitter Profile</label>
+        </div>
+        <div class="input-field col s12">
           {{form.linkedin_profile}}
-        </p>
+          <label>Linkedin Profile</label>
+        </div>
         <br>
         <button type="submit">Submit</button>
         {% for field in form %}
-    {% for error in field.errors %}
-      <p style="color: red;">{{error}}</p>
-    {% endfor %}
-  {% endfor %}
+        {% for error in field.errors %}
+        <p style="color: red;">{{error}}</p>
+        {% endfor %}
+        {% endfor %}
 
-  {% if login_form.non_field_errors %}
-    <div style="color:red;">
-      <p>{{login_form.non_field_errors}}</p>
+        {% if login_form.non_field_errors %}
+        <div style="color:red;">
+          <p>{{login_form.non_field_errors}}</p>
+        </div>
+        {% endif %}
+      </form>
     </div>
-      {% endif %}
-    </form>
   </div>
-</div>
-{% include 'snippets/footer.html' %}
+  {% include 'snippets/footer.html' %}
 </body>
+
 </html>
 
 <script>
-  $(document).ready(function(){
-      $('.datepicker').datepicker().toString();
+  $(document).ready(function () {
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      yearRange: [1947, 2020]
     });
+    $('.materialboxed').materialbox();
+    $('.sidenav').sidenav({
+      edge: 'right',
+    });
+
+    $('select').formSelect();
+    $('.slider').slider();
+
+    function dest(d) {
+      let hash = CryptoJS.MD5(d).toString();
+      window.location.href = "/chat/" + hash;
+    }
+  });
 </script>
