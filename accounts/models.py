@@ -4,19 +4,22 @@ from django.conf import settings
 from college.models import College, Department, Course, Specialization
 from django.db.models.signals import pre_save, post_delete
 from django.utils.text import slugify
+from mapbox_location_field.models import LocationField, AddressAutoHiddenField
+
 
 def upload_user_image_location(instance, filename):
-    file_path = 'user/{user_id}/{filename}'.format(
-        user_id=str(instance.id),
-        filename=filename
+    file_path = "user/{user_id}/{filename}".format(
+        user_id=str(instance.id), filename=filename
     )
     return file_path
+
 
 class Position(models.Model):
     position_name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.position_name
+
 
 class User(AbstractUser):
     is_verified = models.BooleanField(default=False)
@@ -27,10 +30,16 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     full_name = models.SlugField(editable=False)
-    college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, blank=True)
+    college = models.ForeignKey(
+        College, on_delete=models.SET_NULL, null=True, blank=True
+    )
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-    specialization = models.ForeignKey(Specialization, on_delete=models.SET_NULL, null=True, blank=True)
+    department = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    specialization = models.ForeignKey(
+        Specialization, on_delete=models.SET_NULL, null=True, blank=True
+    )
     dob = models.DateField(null=True, blank=True)
     system_date_joined = models.DateTimeField(verbose_name="Date Joined", auto_now=True)
     system_last_login = models.DateTimeField(verbose_name="Last Login", auto_now=True)
@@ -38,10 +47,16 @@ class User(AbstractUser):
     facebook_profile = models.URLField(max_length=1000, null=True, blank=True)
     twitter_profile = models.URLField(max_length=1000, null=True, blank=True)
     linkedin_profile = models.URLField(max_length=1000, null=True, blank=True)
-    location = models.CharField(max_length=200, null=True, blank=True)
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+    location = LocationField(
+        map_attrs={"center": (15.29, 74.12), "marker_color": "blue"}
+    )
+    address = AddressAutoHiddenField()
+    position = models.ForeignKey(
+        Position, on_delete=models.SET_NULL, null=True, blank=True
+    )
     phone = models.CharField(max_length=20, null=True, blank=True)
     about_me = models.TextField(null=True, blank=True)
+
 
 class Alumni(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -54,9 +69,8 @@ class Alumni(models.Model):
     resume = models.URLField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
-        return (
-            self.user.full_name + " " + self.unique_id
-        )
+        return self.user.full_name + " " + self.unique_id
+
 
 class Faculty(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -77,8 +91,10 @@ class Faculty(models.Model):
             + self.user.college.name
         )
 
+
 def pre_save_User(sender, instance, *args, **kwargs):
     if not instance.full_name:
         instance.full_name = slugify(instance.first_name + instance.last_name)
+
 
 pre_save.connect(pre_save_User, sender=User)
