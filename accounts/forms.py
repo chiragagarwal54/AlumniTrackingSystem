@@ -53,6 +53,7 @@ class FacultySignUpForm(UserCreationForm):
     email = forms.EmailField()
     image = forms.ImageField()
     phone = forms.CharField(max_length=20)
+    unique_id = forms.CharField(max_length=200)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -68,11 +69,13 @@ class FacultySignUpForm(UserCreationForm):
         user.college = College.objects.get(name=self.cleaned_data['college'])
         user.profile_photo = self.cleaned_data['image']
         user.phone = self.cleaned_data['phone']
+        unique_id = self.cleaned_data['unique_id']
         user.save()
         system_date_joined = datetime.datetime.now()
 
         faculty = Faculty.objects.create(
             user=user,
+            unique_id=unique_id,
             )
         return user
 
