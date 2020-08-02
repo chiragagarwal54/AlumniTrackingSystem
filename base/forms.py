@@ -1,5 +1,5 @@
 from django import forms
-from base.models import Event, News, Story
+from base.models import Event, News, Story, EventRegistrationList
 
 class AddEvent(forms.ModelForm):
 
@@ -18,3 +18,9 @@ class AddStory(forms.ModelForm):
     class Meta:
         model = Story
         fields = ('title','body')
+
+class EventRegistration(forms.ModelForm):
+
+    class Meta:
+        model = EventRegistrationList
+        fields = ('name', 'email')

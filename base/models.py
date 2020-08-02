@@ -80,6 +80,14 @@ class Event(models.Model):
     def start_date_day(self):
         return self.start_date.strftime("%A")
 
+class EventRegistrationList(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length = 100, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return self.event.title
 
 class News(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

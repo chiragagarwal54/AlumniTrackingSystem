@@ -20,7 +20,9 @@ from base.views import(
     addevent,
     send_p2pnotifs,
     notifications,
-    notif_read
+    notif_read,
+    eventregistration,
+    eventregistrationlist,
 )
 
 app_name='base'
@@ -44,5 +46,8 @@ urlpatterns = [
     path('addnews', addnews, name="addnews"),
     path('sendnotifs/', send_p2pnotifs, name="sendnotifs"),
     path('notifications/', notifications, name="notifications"),
-    path('notifsread/',notif_read, name="readnotifs")
+    path('notifsread/',notif_read, name="readnotifs"),
+    path('eventregistrationlist/<int:event_id>', eventregistrationlist, name="eventregistrationlist"),
+    path('eventregistration/<int:event_id>', eventregistration, name="eventregistration"),
+
 ]

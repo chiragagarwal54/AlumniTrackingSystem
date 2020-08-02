@@ -9,6 +9,7 @@ from base.models import (
     Gallery,
     Carousel,
     PersontoPersonNotifs,
+    EventRegistrationList,
 )
 from jobs.models import Job
 from payments.models import DonationType
@@ -16,7 +17,7 @@ from django.db.models import Q
 import datetime
 from django.http import JsonResponse
 from .filters import UserFilter
-from base.forms import AddEvent, AddNews, AddStory
+from base.forms import AddEvent, AddNews, AddStory, EventRegistration
 from college.models import College, Department
 from accounts.decorators import alumni_required, faculty_required, verify_required
 from django.views.decorators.csrf import csrf_exempt
@@ -187,9 +188,46 @@ def allGallery(request):
 def speceficevent(request, event_id):
     context = {}
     event = Event.objects.get(id=event_id)
+    if request.POST:
+        if request.user.is_authenticated:
+            new = EventRegistrationList()
+            new.event = event
+            new.user = request.user
+            new.save()
+            return redirect("base:speceficevent", event_id=event_id)
+        else:
+            return redirect("base:eventregistration", event_id=event_id)
+
     context["event"] = event
+    if request.user.is_authenticated:
+        eventregistered = EventRegistrationList.objects.filter(event_id=event_id, user=request.user)
+        context['eventregistered'] = eventregistered
 
     return render(request, "specific-event.html", context)
+
+def eventregistration(request, event_id):
+    context = {}
+    event = Event.objects.get(id=event_id)
+    if request.POST:
+        form = EventRegistration(request.POST)
+        if form.is_valid:
+            cur = form.save(commit=False)
+            cur.event = event
+            cur.save()
+            return redirect("base:speceficevent", event_id=event_id)
+    else:
+        form = EventRegistration()
+    context["form"] = form
+
+    return render(request, "eventregistration.html", context)
+
+def eventregistrationlist(request, event_id):
+    context = {}
+    registrations = EventRegistrationList.objects.filter(event_id=event_id)
+    context['registrations'] = registrations
+    context['count'] = registrations.count()
+
+    return render(request, 'eventregistrationlist.html', context)
 
 
 def speceficnews(request, news_id):
@@ -385,4 +423,3 @@ def notif_read(request):
             notif.read = True
             notif.save()
     return JsonResponse({" message": "success"})
-

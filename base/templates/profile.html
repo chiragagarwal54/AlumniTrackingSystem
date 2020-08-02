@@ -126,7 +126,7 @@
           {% if user.linkedin_profile %}
           <div class="col-lg-2">
             <!-- LinkedIn Button -->
-            <button class="nav-button-text btn btn-primary" onclick="location.href = '{{user.linkedin_profile}}';"">LinkedIn Profile</button>
+            <button class="nav-button-text btn btn-primary" onclick="location.href = '{{user.linkedin_profile}}';">LinkedIn Profile</button>
           </div>
           {% endif %}
 
@@ -347,6 +347,14 @@
     </div>
   </div>
   {% endif %}
+  {% if editprofile %}
+  <a href="{% url 'accounts:update_alumni_profile' %}" <button>Edit Profile</button></a>
+  {% endif %}
+  {% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
+  <form method="post">{% csrf_token %}
+    <button type="submit">Approve verification</button>
+  </form>
+  {% endif %}
 
 </div>
 <script>
@@ -550,13 +558,3 @@
 
 </script>
 {% endblock %}
-
-
-{% if editprofile %}
-<a href="{% url 'accounts:update_alumni_profile' %}" <button>Edit Profile</button></a>
-{% endif %}
-{% if request.user.is_staff and is_alumni and not alumni.profile_verified %}
-<form method="post">{% csrf_token %}
-  <button type="submit">Approve verification</button>
-</form>
-{% endif %}
