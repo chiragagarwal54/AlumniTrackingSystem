@@ -5,14 +5,21 @@
 {% block content %}
 
 <head>
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css"
     href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
     crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
   <link href="{% static 'base/css/profilepage.css' %}" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <style>
@@ -22,10 +29,19 @@
   }
 </style>
 
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: relative; top: 0em;">
+  <div class="toast-header">
+    <strong class="mr-auto">Notification</strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body"></div>
+</div>
 <!-- Sections -->
 <!-- Personal Photo top page -->
 <div class="text-center personal-img-container">
-  <img src="{{request.user.profile_photo.url}}" class="rounded-circle personal-img" alt="Portfolio Image Omar">
+  <img src="{{user.profile_photo.url}}" class="rounded-circle personal-img" alt="Portfolio Image Omar">
 </div>
 
 
@@ -344,10 +360,10 @@
       url: '/sendnotifs/',
       contentType: "application/x-www-form-urlencoded",
       success: function (res) {
-        console.log(res);
+        M.toast({ html: res['message'] });
       },
       error: function (err) {
-        console.log(err);
+        M.toast({ html: err['message'] });
       }
     });
   });
