@@ -6,6 +6,7 @@ from base.views import(
     allnews,
     allevents,
     allstory,
+    allGallery,
     speceficevent,
     speceficnews,
     profile,
@@ -17,6 +18,9 @@ from base.views import(
     addnews,
     addstory,
     addevent,
+    send_p2pnotifs,
+    notifications,
+    notif_read
 )
 
 app_name='base'
@@ -30,6 +34,7 @@ urlpatterns = [
     path('news', allnews, name="allnews"),
     path('events', allevents, name="allevents"),
     path('stories',allstory,name="allstory"),
+    path('gallery',allGallery,name="allGallery"),
     path('searchalumni', searchalumni, name="searchalumni"),
     path('autocomplete', autocomplete, name="autocomplete"),
     path('jobsection', jobsection,name="jobsection"),
@@ -37,4 +42,7 @@ urlpatterns = [
     path('addstory', addstory, name="addstory"),
     path('addevent', addevent, name="addevent"),
     path('addnews', addnews, name="addnews"),
+    path('sendnotifs/', send_p2pnotifs, name="sendnotifs"),
+    path('notifications/', notifications, name="notifications"),
+    path('notifsread/',notif_read, name="readnotifs")
 ]
