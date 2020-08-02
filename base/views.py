@@ -394,9 +394,9 @@ def send_p2pnotifs(request):
             from_user=from_id, to_user=to_id, text=message, subject=subject, read=False
         )
         notif.save()
-        return JsonResponse({"message": "success"})
+        return JsonResponse({"message": "Successful! Message sent."})
     except:
-        return JsonResponse({"message": "error"})
+        return JsonResponse({"message": "Something went wrong! Please contact admin."})
 
 
 @verify_required
@@ -404,16 +404,21 @@ def send_p2pnotifs(request):
 def notifications(request):
     if request.user.is_authenticated:
         context = {}
-        notifs = PersontoPersonNotifs.objects.filter(to_user=request.user)
-        new = PersontoPersonNotifs.objects.filter(to_user=request.user).filter(read=False)
-        context['notifs'] = notifs
-        context['new'] = new
+        notifs = PersontoPersonNotifs.objects.filter(to_user=request.user).order_by("-id")
+        new = PersontoPersonNotifs.objects.filter(to_user=request.user).filter(
+            read=False
+        )
+        context["notifs"] = notifs
+        context["new"] = new
         return render(request, "notifications.html", context)
+
 
 @csrf_exempt
 def notif_read(request):
     if request.POST:
-        notifs = PersontoPersonNotifs.objects.filter(to_user=User.objects.get(id=request.POST.get('id')))
+        notifs = PersontoPersonNotifs.objects.filter(
+            to_user=User.objects.get(id=request.POST.get("id"))
+        )
         for notif in notifs:
             notif.read = True
             notif.save()
