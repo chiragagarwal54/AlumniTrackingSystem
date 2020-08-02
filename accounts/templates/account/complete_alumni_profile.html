@@ -1,14 +1,70 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 {% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://code.jquery.com/jquery-3.5.1.js"
+		integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="{% static 'chat/css/materialize.css' %}">
+	<script src="{% static 'chat/js/materialize.js' %}"></script>
+</head>
+<body>
+{% include 'snippets/header.html' %}
 <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
-<div class="row">
-  <div class="col-md-8 col-sm-10 col-12">
-    <div class="container">
-      <h2>Welcome {{request.user}}! Complete your profile for verification!</h2>
+  <div class="row">
+    <div class="col-md-8 col-sm-10 col-12">
+      <div class="container"><h2>Welcome {{request.user}}! Complete your profile for verification!</h2></div>
+      <form method="post" id="regForm" novalidate>
+        {% csrf_token %}
+        <p>Date of Birth
+          <input type="text" name="dob" required_id="id_dob" class="datepicker">
+        </p>
+        <p>Course
+          {{form.course}}
+        </p>
+        <p>Department
+          {{form.department}}
+        </p>
+        <p>Specialization
+          {{form.specialization}}
+        </p>
+        <p>Year of Passing
+          {{form.year_of_passing}}
+        </p>
+        <p>About Yourself
+          {{form.about_me}}
+        </p>
+        <p>Location
+          {{form.location}}
+        </p>
+        <p>Facebook Profile Link
+          {{form.facebook_profile}}
+        </p>
+        <p>Twitter Profile Link
+          {{form.twitter_profile}}
+        </p>
+        <p>Linkedin Profile Link
+          {{form.linkedin_profile}}
+        </p>
+        <br>
+        <button type="submit">Submit</button>
+        {% for field in form %}
+    {% for error in field.errors %}
+      <p style="color: red;">{{error}}</p>
+    {% endfor %}
+  {% endfor %}
+
+  {% if login_form.non_field_errors %}
+    <div style="color:red;">
+      <p>{{login_form.non_field_errors}}</p>
     </div>
     <div class="container" id="dateselector">
     </div>
@@ -59,6 +115,12 @@
       {% endif %}
     </form>
   </div>
-</div>
-{% endblock %}
+{% include 'snippets/footer.html' %}
+</body>
+</html>
 
+<script>
+  $(document).ready(function(){
+      $('.datepicker').datepicker().toString();
+    });
+</script>

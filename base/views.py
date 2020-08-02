@@ -177,6 +177,13 @@ def allstory(request):
     return render(request, "all-stories.html", context)
 
 
+def allGallery(request):
+    context = {}
+    galleryimgs = Gallery.objects.all().order_by("-date_time")
+    context['gallery'] = galleryimgs
+
+    return render(request,"gallery.html",context)
+
 def speceficevent(request, event_id):
     context = {}
     event = Event.objects.get(id=event_id)
