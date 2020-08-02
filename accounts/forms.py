@@ -57,6 +57,7 @@ class FacultySignUpForm(UserCreationForm):
     email = forms.EmailField()
     image = forms.ImageField()
     phone = forms.CharField(max_length=20)
+    unique_id = forms.CharField(max_length=200)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -72,11 +73,13 @@ class FacultySignUpForm(UserCreationForm):
         user.college = College.objects.get(name=self.cleaned_data['college'])
         user.profile_photo = self.cleaned_data['image']
         user.phone = self.cleaned_data['phone']
+        unique_id = self.cleaned_data['unique_id']
         user.save()
         system_date_joined = datetime.datetime.now()
 
         faculty = Faculty.objects.create(
             user=user,
+            unique_id=unique_id,
             )
         return user
 
@@ -160,7 +163,7 @@ class CompleteFacultyProfile(forms.ModelForm):
     def save(self, commit=True):
         user = self.user
         faculty = Faculty.objects.get(user=self.user)
-        
+
         department = self.cleaned_data['department']
         if department:
             user.department = Department.objects.get(name=self.cleaned_data['department'])
@@ -201,6 +204,8 @@ class AccountAuthenticationForm(forms.ModelForm):
 
 class UpdateAlumniProfile(forms.ModelForm):
 
+    company = forms.CharField(max_length=200, required=False)
+
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'college', 'dob')
+        fields = ('first_name', 'last_name', 'email', 'dob', 'username', 'profile_photo', 'facebook_profile', 'twitter_profile', 'linkedin_profile', 'location', 'phone', 'about_me')
