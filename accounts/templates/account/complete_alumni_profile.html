@@ -66,55 +66,10 @@
     <div style="color:red;">
       <p>{{login_form.non_field_errors}}</p>
     </div>
-    <div class="container" id="dateselector">
-    </div>
-    <form method="post" id="regForm" novalidate>
-      {% csrf_token %}
-      <p>Date of Birth
-        {{form.dob}}
-      </p>
-      <p>Course
-        {{form.course}}
-      </p>
-      <p>Department
-        {{form.department}}
-      </p>
-      <p>Specialization
-        {{form.specialization}}
-      </p>
-      <p>Year of Passing
-        {{form.year_of_passing}}
-      </p>
-      <p>About Yourself
-        {{form.about_me}}
-      </p>
-      <p>Location
-        {{form.location}}
-      </p>
-      <p>Facebook Profile Link
-        {{form.facebook_profile}}
-      </p>
-      <p>Twitter Profile Link
-        {{form.twitter_profile}}
-      </p>
-      <p>Linkedin Profile Link
-        {{form.linkedin_profile}}
-      </p>
-      <br>
-      <button type="submit">Submit</button>
-      {% for field in form %}
-      {% for error in field.errors %}
-      <p style="color: red;">{{error}}</p>
-      {% endfor %}
-      {% endfor %}
-
-      {% if login_form.non_field_errors %}
-      <div style="color:red;">
-        <p>{{login_form.non_field_errors}}</p>
-      </div>
       {% endif %}
     </form>
   </div>
+</div>
 {% include 'snippets/footer.html' %}
 </body>
 </html>
