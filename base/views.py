@@ -366,7 +366,7 @@ def send_p2pnotifs(request):
 def notifications(request):
     if request.user.is_authenticated:
         context = {}
-        notifs = PersontoPersonNotifs.objects.filter(to_user=request.user)
+        notifs = PersontoPersonNotifs.objects.filter(to_user=request.user).order_by("-id")
         new = PersontoPersonNotifs.objects.filter(to_user=request.user).filter(
             read=False
         )
