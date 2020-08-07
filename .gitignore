@@ -27,3 +27,5 @@ payments/migrations/00*
 mailer/migrations/00*
 
 .env
+
+venv/
